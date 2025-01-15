@@ -17,41 +17,38 @@ import sklearn as sk
 import skimage as ski
 from matplotlib import pyplot as plt
 
-import joblib
 
 def prepare_image(img):
-    img = ski.transform.resize(img, (500, 500))
+    img = ski.transform.resize(img, (256, 256))
 
     flat_c = img.flatten(order="C")
     flat_f = img.flatten(order="F")
-    comb_a = flat_c + flat_f
-    comb_b = flat_c - flat_f
 
-    return np.dstack((flat_c, comb_a, flat_f, comb_b)).flatten()
+    interleaved = np.dstack((flat_c, flat_f, flat_c, flat_f)).flatten()
 
-def prepare_collection(collection):
+    return interleaved.reshape((512, 512, 3))
+
+def prepare_collection(collection, path, name):
     n_images = len(collection)
-    res = []
     for img_ind in range(n_images):
-        res.append(prepare_image(collection[img_ind]))
-        print(f"{img_ind}/{n_images}", end="\r")
+        fname = path + "_" + str(img_ind) + "_" + name + ".jpg"
+
+        img_uint_rgb = (prepare_image(collection[img_ind]) * 255).astype(np.uint8)
+
+        ski.io.imsave(fname=fname, arr=img_uint_rgb)
+        print(f"{img_ind + 1}/{n_images}", end="\r")
     print()
-    return res
 
 cat_train_images = ski.io.imread_collection("Data/linreg_img_class/training_set/training_set/cats/*.jpg")
 dog_train_images = ski.io.imread_collection("Data/linreg_img_class/training_set/training_set/dogs/*.jpg")
 
-cat_train_prepped = prepare_collection(cat_train_images)
-dog_train_prepped = prepare_collection(dog_train_images)
-
-joblib.dump((cat_train_prepped, dog_train_prepped), "CAT_DOG_DATASET_TRAIN.joblib")
+cat_train_prepped = prepare_collection(cat_train_images, "Data/linreg_img_class/prepped/train/", "c-tr")
+dog_train_prepped = prepare_collection(dog_train_images, "Data/linreg_img_class/prepped/train/", "d-tr")
 
 
 cat_test_images = ski.io.imread_collection("Data/linreg_img_class/test_set/test_set/cats/*.jpg")
 dog_test_images = ski.io.imread_collection("Data/linreg_img_class/test_set/test_set/dogs/*.jpg")
 
-cat_test_prepped = prepare_collection(cat_test_images)
-dog_test_prepped = prepare_collection(dog_test_images)
-
-joblib.dump((cat_test_prepped, dog_test_prepped), "CAT_DOG_DATASET_TEST.joblib")
+cat_test_prepped = prepare_collection(cat_test_images, "Data/linreg_img_class/prepped/test/", "c-te")
+dog_test_prepped = prepare_collection(dog_test_images, "Data/linreg_img_class/prepped/test/", "d-te")
 
