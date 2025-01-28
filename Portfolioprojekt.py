@@ -18,7 +18,7 @@ seed = 42
 df = pd.read_csv("Data/IRIS.csv")
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Input((None, 4)))
+model.add(tf.keras.layers.Input((4,)))
 model.add(tf.keras.layers.Dense(2))
 model.add(tf.keras.layers.Dense(2))
 model.add(tf.keras.layers.Dense(3, activation="softmax"))
