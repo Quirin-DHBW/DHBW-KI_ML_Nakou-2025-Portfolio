@@ -10,7 +10,21 @@ Some secondary system uses this emotional data to suggest a song.
 ![Picture showing the initial idea behind VibeluX, sketched on a smart-whiteboard in the DHBW Lörrach.](img/Tafelbild_0.png)
 
 
+## Requirements
+
+- Numpy
+- Pandas
+- Tensorflow
+- matplotlib
+- librosa
+- scikit-image
+
+
 ## A!
-
-
+```
+        /\/\    _
+       < o  \  /_|
+        |  | \/ /
+        |/\|<__/
+```
 
