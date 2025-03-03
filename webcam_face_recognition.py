@@ -1,3 +1,7 @@
+import os
+import sys
+os.chdir(sys.path[0])
+
 # pipinstall opencv-python first for windows cv driver shenanigans
 import cv2
 
@@ -28,7 +32,8 @@ while True:
     # If face biggest, make even biggerer
     if largest_face:
         x, y, w, h = largest_face
-        margin = int(0.2 * w)  # Add margin for good measure - should be enough for emotion detection like this
+        # Q: I set the margin to zero to more closely resemble the training data
+        margin = int(0 * w)  # Add margin for good measure - should be enough for emotion detection like this
         x1, y1 = max(0, x - margin), max(0, y - margin)
         x2, y2 = min(grey.shape[1], x + w + margin), min(grey.shape[0], y + h + margin)
         
@@ -37,13 +42,15 @@ while True:
         zoomed_face = cv2.resize(zoomed_face, (48, 48))  # Resize for consistency
 
         # Save the frame
-        cv2.imwrite("zoomed_face.jpg", zoomed_face)
+        cv2.imwrite("zoomed_face.png", zoomed_face)
 
     # Show the original frame with rectangles around faces - for testing
-    #for (x, y, w, h) in faces:
-    #    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    #cv2.imshow("Webcam Feed", frame)
-
+    """
+    for (x, y, w, h) in faces:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    cv2.imshow("Webcam Feed", frame)
+    """
+    
     # Exit on pressing 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
