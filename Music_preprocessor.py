@@ -1,11 +1,15 @@
-import os
-import sys
-os.chdir(sys.path[0])
+"""
+Here we eat .mp3 files to turn them into constant length spectrograms!
+"""
 
 
 ################
 ## IMPORTS #####
 ################
+
+import os
+import sys
+os.chdir(sys.path[0])
 
 import librosa
 import soundfile as sf # Used for the audio crustifyer!

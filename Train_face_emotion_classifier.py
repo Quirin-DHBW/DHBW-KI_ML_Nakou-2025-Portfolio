@@ -3,6 +3,9 @@ VibeluX
 
 Eat image, return emotion, use emotion to find songs :3
 """
+################
+## IMPORTS #####
+################
 
 import os
 import sys
@@ -16,32 +19,29 @@ from tensorflow import keras as k
 
 import matplotlib.pyplot as plt
 
-seed = 42
-# Define constants
-IMG_SIZE = (48, 48)
-BATCH_SIZE = 64
-EPOCHS = 35
-DATA_DIR = "Data/archive"
 
-# Function to create dataset
-def create_dataset(directory, batch_size=BATCH_SIZE):
+#############################
+## FUNCTION DEFINITIONS #####
+#############################
+
+def create_dataset(directory, batch_size=64, image_size=(48, 48)):
     return k.preprocessing.image_dataset_from_directory(
         directory,
-        image_size=IMG_SIZE,
+        image_size=image_size,
         batch_size=batch_size,
-        color_mode="grayscale",  # Since images are greyscale
-        label_mode="int"  # Labels are inferred from directory names
+        color_mode="grayscale",
+        label_mode="int"
     )
 
-# Load datasets
-train_dataset = create_dataset(os.path.join(DATA_DIR, "train"))
-test_dataset = create_dataset(os.path.join(DATA_DIR, "test"))
 
-# Function to create CNN model with customizable layers
-def create_model(conv_layers, dropout=0.25):
+def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
+    """
+    Create a Convolutional network :)
+    """
     model = k.Sequential()
-    model.add(k.Input((48, 48, 1)))
-    model.add(k.layers.Rescaling(1./255))  # Normalize pixel values
+    model.add(k.Input(input_size))
+    # Normalize pixels
+    model.add(k.layers.Rescaling(1./255))
     
     for filters, kernel_size in conv_layers:
         model.add(k.layers.Conv2D(filters, kernel_size, activation='relu', padding='same'))
@@ -64,20 +64,26 @@ def create_model(conv_layers, dropout=0.25):
     
     return model
 
-# Define convolutional layers
+
+#######################
+## Model training #####
+#######################
+
+train_dataset = create_dataset("Data/archive/train")
+test_dataset = create_dataset("Data/archive/test")
+
 conv_layers = [(64, (5, 5)), 
                (32, (4, 4)), 
                (32, (3, 3))]
 
-# Define EarlyStopping callback
 early_stopping = k.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
 
-# Create and train the model
 model = create_model(conv_layers)
-history = model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset, callbacks=[early_stopping])
+history = model.fit(train_dataset, epochs=100, validation_data=test_dataset, callbacks=[early_stopping])
 
-# Function to plot training results
+
 def plot_history(history):
+    # Plot accuracy and loss using model training history.
     plt.figure(figsize=(12, 4))
     
     # Plot accuracy
@@ -100,9 +106,8 @@ def plot_history(history):
     
     plt.show()
 
-# Plot training results
+
 plot_history(history)
 
-# Save the trained model
-model.save("emotion_classifier.h5")
+model.save("face_emotion_classifier.h5")
 
