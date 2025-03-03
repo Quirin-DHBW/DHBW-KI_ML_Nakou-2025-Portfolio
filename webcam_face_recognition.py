@@ -11,10 +11,10 @@ while True:
     ret, frame = cap.read()
     if not ret:
         break
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Detect all faces in the frame
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+    faces = face_cascade.detectMultiScale(grey, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     # Find largest detected face
     largest_face = None
@@ -30,23 +30,19 @@ while True:
         x, y, w, h = largest_face
         margin = int(0.2 * w)  # Add margin for good measure - should be enough for emotion detection like this
         x1, y1 = max(0, x - margin), max(0, y - margin)
-        x2, y2 = min(gray.shape[1], x + w + margin), min(gray.shape[0], y + h + margin)
+        x2, y2 = min(grey.shape[1], x + w + margin), min(grey.shape[0], y + h + margin)
         
         # Standalone face and pixel-inator
-        zoomed_face = gray[y1:y2, x1:x2]
+        zoomed_face = grey[y1:y2, x1:x2]
         zoomed_face = cv2.resize(zoomed_face, (48, 48))  # Resize for consistency
-
-        # Display the zoomed face
-        cv2.imshow("Zoomed Face", zoomed_face)
 
         # Save the frame
         cv2.imwrite("zoomed_face.jpg", zoomed_face)
 
-    # Show the original frame with rectangles around faces
-    for (x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-    cv2.imshow("Webcam Feed", frame)
+    # Show the original frame with rectangles around faces - for testing
+    #for (x, y, w, h) in faces:
+    #    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    #cv2.imshow("Webcam Feed", frame)
 
     # Exit on pressing 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
