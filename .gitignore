@@ -30,3 +30,5 @@
 /Data/audio/Processed/neutral/*.png
 /Data/audio/Processed/sad/*.png
 /Data/audio/Processed/surprised/*.png
+
+/__pycache__

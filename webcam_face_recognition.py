@@ -10,13 +10,26 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 
 cap = cv2.VideoCapture(0)  # (0 = default camera)
 
-def capture_and_save_face(visualize:bool=False):
+def cleanup():
+    cap.release()
+    cv2.destroyAllWindows()
+
+def capture_and_save_face(visualize:bool=False, verbose:bool=False):
+    if verbose:
+        print("CAPTURE WAS CALLED!")
+
     # Read a frame
     ret, frame = cap.read()
     if not ret:
+        print("WEBCAM ERROR: NO FRAME WAS RETURNED!!!")
         return
+    
+    if verbose:
+        print("Greyscaling image...")
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+    if verbose:
+        print("Detecting face...")
     # Detect all faces in the frame
     faces = face_cascade.detectMultiScale(grey, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
@@ -41,6 +54,8 @@ def capture_and_save_face(visualize:bool=False):
         zoomed_face = grey[y1:y2, x1:x2]
         zoomed_face = cv2.resize(zoomed_face, (48, 48))  # Resize for consistency
 
+        if verbose:
+            print("Saving face...")
         # Save the frame
         cv2.imwrite("zoomed_face.png", zoomed_face)
 
@@ -52,12 +67,11 @@ def capture_and_save_face(visualize:bool=False):
 
 if __name__ == "__main__":
     while True:
-        capture_and_save_face()
+        capture_and_save_face(visualize=True)
         
         # Exit on pressing 'q'
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+    
+    cleanup()
 
-# Cleanup
-cap.release()
-cv2.destroyAllWindows()

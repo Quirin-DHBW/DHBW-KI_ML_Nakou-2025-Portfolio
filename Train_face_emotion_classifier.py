@@ -45,7 +45,7 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
     
     for filters, kernel_size in conv_layers:
         model.add(k.layers.Conv2D(filters, kernel_size, activation='relu', padding='same'))
-        model.add(k.layers.MaxPooling2D((2, 2)))
+        model.add(k.layers.MaxPooling2D((2, 2), padding="same"))
         model.add(k.layers.Dropout(dropout))
     
     model.add(k.layers.Flatten())
@@ -76,7 +76,7 @@ conv_layers = [(64, (5, 5)),
                (32, (4, 4)), 
                (32, (3, 3))]
 
-early_stopping = k.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+early_stopping = k.callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
 
 model = create_model(conv_layers)
 history = model.fit(train_dataset, epochs=100, validation_data=test_dataset, callbacks=[early_stopping])
