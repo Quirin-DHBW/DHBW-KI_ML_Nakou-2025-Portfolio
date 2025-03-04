@@ -10,11 +10,11 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 
 cap = cv2.VideoCapture(0)  # (0 = default camera)
 
-while True:
+def capture_and_save_face(visualize:bool=False):
     # Read a frame
     ret, frame = cap.read()
     if not ret:
-        break
+        return
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Detect all faces in the frame
@@ -45,15 +45,18 @@ while True:
         cv2.imwrite("zoomed_face.png", zoomed_face)
 
     # Show the original frame with rectangles around faces - for testing
-    """
-    for (x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    cv2.imshow("Webcam Feed", frame)
-    """
-    
-    # Exit on pressing 'q'
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    if visualize:
+        for (x, y, w, h) in faces:
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cv2.imshow("Webcam Feed", frame)
+
+if __name__ == "__main__":
+    while True:
+        capture_and_save_face()
+        
+        # Exit on pressing 'q'
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
 # Cleanup
 cap.release()
