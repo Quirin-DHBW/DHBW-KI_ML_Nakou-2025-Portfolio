@@ -2,6 +2,7 @@
 *(Vibe + Flux)*
 
 Detection of emotional states in human faces, to suggest fitting music.
+![:)](zoomed_face.png)
 
 ## Basic Idea
 
