@@ -54,7 +54,7 @@ print("Done!")
 
 print()
 for val, emot in zip(recognized_emotions[0], emotions):
-    print(f"{emot.capitalize()}: {float(val)}")
+    print(f"{emot.capitalize().ljust(10)}: {float(val)}")
 
 print(f"\nDominant Emotion: {emotions[recognized_emotions[0].argmax()]}")
 

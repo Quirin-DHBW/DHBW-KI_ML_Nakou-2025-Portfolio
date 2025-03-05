@@ -78,7 +78,7 @@ conv_layers = [(64, (5, 5)),
 early_stopping = k.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
 
 model = create_model(conv_layers, input_size=(1407, 1025, 1))
-history = model.fit(train_dataset, epochs=100, validation_split=0.15, callbacks=[early_stopping])
+history = model.fit(train_dataset, epochs=100, validation_split=0.05, callbacks=[early_stopping])
 
 
 def plot_history(history):

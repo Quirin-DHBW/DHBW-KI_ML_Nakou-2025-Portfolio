@@ -18,6 +18,7 @@ Some secondary system uses this emotional data to suggest a song.
 - matplotlib
 - librosa
 - scikit-image
+- OpenCV
 
 
 ## A!
