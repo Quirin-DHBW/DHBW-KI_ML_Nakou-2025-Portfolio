@@ -17,7 +17,7 @@ import pathlib
 from tempfile import TemporaryDirectory
 import json
 
-from Music_preprocessor import audio_to_spectrogram, process_directory
+from Model_Training.Music_preprocessor import audio_to_spectrogram, process_directory
 
 import tensorflow as tf
 from tensorflow import keras as k

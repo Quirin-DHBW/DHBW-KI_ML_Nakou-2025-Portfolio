@@ -32,3 +32,5 @@
 /Data/audio/Processed/surprised/*.png
 
 /__pycache__
+/Model_Training/__pycache__
+song_embeddings.json

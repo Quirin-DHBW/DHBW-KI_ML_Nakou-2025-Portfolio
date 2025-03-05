@@ -7,9 +7,11 @@ Eat image, return emotion, use emotion to find songs :3
 ## IMPORTS #####
 ################
 
-import os
-import sys
-os.chdir(sys.path[0])
+if __name__ == "__main__":
+    import pathlib
+    import os
+    import sys
+    os.chdir(pathlib.Path(sys.path[0]).parent)
 
 import numpy as np
 import pandas as pd
@@ -45,7 +47,7 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
     
     for filters, kernel_size in conv_layers:
         model.add(k.layers.Conv2D(filters, kernel_size, activation='relu', padding='same'))
-        model.add(k.layers.MaxPooling2D((2, 2)))
+        model.add(k.layers.MaxPooling2D((2, 2), padding="same"))
         model.add(k.layers.Dropout(dropout))
     
     model.add(k.layers.Flatten())
@@ -69,16 +71,17 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
 ## Model training #####
 #######################
 
-train_dataset = create_dataset("Data/audio/Processed", batch_size=4, image_size=(1407, 1025))
+train_dataset = create_dataset("Data/archive/train")
+test_dataset = create_dataset("Data/archive/test")
 
 conv_layers = [(64, (5, 5)), 
                (32, (4, 4)), 
                (32, (3, 3))]
 
-early_stopping = k.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+early_stopping = k.callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
 
-model = create_model(conv_layers, input_size=(1407, 1025, 1))
-history = model.fit(train_dataset, epochs=100, validation_split=0.05, callbacks=[early_stopping])
+model = create_model(conv_layers)
+history = model.fit(train_dataset, epochs=100, validation_data=test_dataset, callbacks=[early_stopping])
 
 
 def plot_history(history):
@@ -108,5 +111,5 @@ def plot_history(history):
 
 plot_history(history)
 
-model.save("music_emotion_classifier.h5")
+model.save("face_emotion_classifier.h5")
 

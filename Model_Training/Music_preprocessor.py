@@ -7,15 +7,16 @@ Here we eat .mp3 files to turn them into constant length spectrograms!
 ## IMPORTS #####
 ################
 
-import os
-import sys
-os.chdir(sys.path[0])
+if __name__ == "__main__":
+    import pathlib
+    import os
+    import sys
+    os.chdir(pathlib.Path(sys.path[0]).parent)
 
 import librosa
 import soundfile as sf # Used for the audio crustifyer!
 import numpy as np
 import skimage.io
-import pathlib
 
 
 ####################
