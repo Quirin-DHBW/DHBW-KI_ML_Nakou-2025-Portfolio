@@ -7,6 +7,7 @@ a Song!
 ################
 ## IMPORTS #####
 ################
+
 print("Importing dependencies...", end="")
 
 import os
@@ -17,7 +18,7 @@ import pathlib
 from tempfile import TemporaryDirectory
 import json
 
-from Model_Training.Music_preprocessor import audio_to_spectrogram, process_directory
+from Model_Training.Music_preprocessor import process_directory
 
 import tensorflow as tf
 from tensorflow import keras as k
