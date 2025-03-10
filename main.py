@@ -67,15 +67,16 @@ print("Finding songs...", end="")
 # TODO: SONG FINDING STUFF HERE
 # Generic Idea: Absolute difference between vectors
 best_song = ""
-best_score = 999999999
+best_score = 0
 
 with open("song_embeddings.json", "r") as embed_json:
     song_embeddings = json.load(embed_json)
     for song, embed in song_embeddings.items():
-        score = np.sum(np.abs(recognized_emotions[0] - embed))
-        if score < best_score:
+        cos_sim = (np.dot(recognized_emotions[0], embed) / (np.linalg.norm(recognized_emotions[0]) * np.linalg.norm(embed)))
+        print(song, cos_sim)
+        if cos_sim > best_score:
             best_song = song
-            best_score = score
+            best_score = cos_sim
 
 print("Done!\n")
 print(f"Found song: {best_song}")

@@ -6,9 +6,9 @@ Here we eat .mp3 files to turn them into constant length spectrograms!
 ################
 ## IMPORTS #####
 ################
+import pathlib
 
 if __name__ == "__main__":
-    import pathlib
     import os
     import sys
     os.chdir(pathlib.Path(sys.path[0]).parent)
@@ -49,11 +49,20 @@ def process_directory(directory_path:str, output_directory:str) -> None:
 ##########################
 
 if __name__ == "__main__":
+    print("Processing songs...")
     process_directory("Data/audio/RAW/angry", "Data/audio/Processed/angry")
+    print("Angry completed... 1/7")
     process_directory("Data/audio/RAW/disgusted", "Data/audio/Processed/disgusted")
+    print("Disgusted completed... 2/7")
     process_directory("Data/audio/RAW/fearful", "Data/audio/Processed/fearful")
+    print("Fearful completed... 3/7")
     process_directory("Data/audio/RAW/happy", "Data/audio/Processed/happy")
+    print("Happy completed... 4/7")
     process_directory("Data/audio/RAW/neutral", "Data/audio/Processed/neutral")
+    print("Neutral completed... 5/7")
     process_directory("Data/audio/RAW/sad", "Data/audio/Processed/sad")
+    print("Sad completed... 6/7")
     process_directory("Data/audio/RAW/surprised", "Data/audio/Processed/surprised")
+    print("Surprised completed... 7/7")
+    print("Conversion complete!")
 

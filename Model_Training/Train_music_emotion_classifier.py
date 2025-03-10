@@ -13,13 +13,8 @@ if __name__ == "__main__":
     import sys
     os.chdir(pathlib.Path(sys.path[0]).parent)
 
-import numpy as np
-import pandas as pd
-
 import tensorflow as tf
 from tensorflow import keras as k
-
-import matplotlib.pyplot as plt
 
 
 #############################
@@ -52,6 +47,9 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
     
     model.add(k.layers.Flatten())
 
+    model.add(k.layers.Dense(256, activation='leaky_relu'))
+    model.add(k.layers.Dropout(dropout))
+
     model.add(k.layers.Dense(128, activation='leaky_relu'))
     model.add(k.layers.Dropout(dropout))
 
@@ -64,6 +62,8 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
     
+    model.summary()
+    
     return model
 
 
@@ -71,44 +71,16 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
 ## Model training #####
 #######################
 
-train_dataset = create_dataset("Data/audio/Processed", batch_size=4, image_size=(1407, 1025))
+train_dataset = create_dataset("Data/audio/Processed", batch_size=1, image_size=(1407, 1025))
 
-conv_layers = [(64, (5, 5)), 
-               (32, (4, 4)), 
-               (32, (3, 3))]
+conv_layers = [(32, (32, 32)), 
+               (16, (16, 16)),
+               (8, (8, 8))]
 
-early_stopping = k.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+early_stopping = k.callbacks.EarlyStopping(monitor='loss', patience=2, restore_best_weights=True)
 
 model = create_model(conv_layers, input_size=(1407, 1025, 1))
-history = model.fit(train_dataset, epochs=100, validation_split=0.05, callbacks=[early_stopping])
-
-
-def plot_history(history):
-    # Plot accuracy and loss using model training history.
-    plt.figure(figsize=(12, 4))
-    
-    # Plot accuracy
-    plt.subplot(1, 2, 1)
-    plt.plot(history.history['accuracy'], label='Train Accuracy')
-    plt.plot(history.history['val_accuracy'], label='Test Accuracy')
-    plt.xlabel('Epochs')
-    plt.ylabel('Accuracy')
-    plt.legend()
-    plt.title('Accuracy over epochs')
-    
-    # Plot loss
-    plt.subplot(1, 2, 2)
-    plt.plot(history.history['loss'], label='Train Loss')
-    plt.plot(history.history['val_loss'], label='Test Loss')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.title('Loss over epochs')
-    
-    plt.show()
-
-
-plot_history(history)
+history = model.fit(train_dataset, epochs=16, callbacks=[early_stopping])
 
 model.save("music_emotion_classifier.h5")
 
