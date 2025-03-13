@@ -42,13 +42,10 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
     
     for filters, kernel_size in conv_layers:
         model.add(k.layers.Conv2D(filters, kernel_size, activation='relu', padding='same'))
-        model.add(k.layers.MaxPooling2D((2, 2)))
+        model.add(k.layers.MaxPooling2D((4, 4)))
         model.add(k.layers.Dropout(dropout))
     
     model.add(k.layers.Flatten())
-
-    model.add(k.layers.Dense(256, activation='leaky_relu'))
-    model.add(k.layers.Dropout(dropout))
 
     model.add(k.layers.Dense(128, activation='leaky_relu'))
     model.add(k.layers.Dropout(dropout))
@@ -73,13 +70,13 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
 
 train_dataset = create_dataset("Data/audio/Processed", batch_size=1, image_size=(1407, 1025))
 
-conv_layers = [(32, (32, 32)), 
-               (16, (16, 16)),
+conv_layers = [(2, (32, 32)), 
+               (4, (16, 16)),
                (8, (8, 8))]
 
 early_stopping = k.callbacks.EarlyStopping(monitor='loss', patience=2, restore_best_weights=True)
 
-model = create_model(conv_layers, input_size=(1407, 1025, 1))
+model = create_model(conv_layers, dropout=0, input_size=(1407, 1025, 1))
 history = model.fit(train_dataset, epochs=16, callbacks=[early_stopping])
 
 model.save("music_emotion_classifier.h5")
