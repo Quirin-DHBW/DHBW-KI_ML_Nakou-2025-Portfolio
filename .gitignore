@@ -32,6 +32,7 @@
 /Data/audio/Processed/surprised/*.png
 
 /Songs/*.mp3
+/.venv
 
 /__pycache__
 /Model_Training/__pycache__

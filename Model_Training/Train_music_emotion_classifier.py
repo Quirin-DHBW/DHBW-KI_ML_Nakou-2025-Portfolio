@@ -16,6 +16,9 @@ if __name__ == "__main__":
 import tensorflow as tf
 from tensorflow import keras as k
 
+#print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+#input()
+
 
 #############################
 ## FUNCTION DEFINITIONS #####
@@ -47,10 +50,13 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
     
     model.add(k.layers.Flatten())
 
-    model.add(k.layers.Dense(128, activation='leaky_relu'))
+    model.add(k.layers.Dense(128, activation='relu'))
     model.add(k.layers.Dropout(dropout))
 
-    model.add(k.layers.Dense(64, activation='leaky_relu'))
+    model.add(k.layers.Dense(128, activation='relu'))
+    model.add(k.layers.Dropout(dropout))
+
+    model.add(k.layers.Dense(64, activation='relu'))
     model.add(k.layers.Dropout(dropout))
 
     model.add(k.layers.Dense(7, activation='softmax'))
@@ -68,16 +74,16 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
 ## Model training #####
 #######################
 
-train_dataset = create_dataset("Data/audio/Processed", batch_size=1, image_size=(1407, 1025))
+train_dataset = create_dataset("Data/audio/Processed", batch_size=4, image_size=(1407, 1025))
 
-conv_layers = [(2, (32, 32)), 
-               (4, (16, 16)),
-               (8, (8, 8))]
+conv_layers = [(28, (12, 12)), 
+               (16, (12, 12)),
+               (16, (12, 12))]
 
-early_stopping = k.callbacks.EarlyStopping(monitor='loss', patience=2, restore_best_weights=True)
+early_stopping = k.callbacks.EarlyStopping(monitor='loss', patience=4, restore_best_weights=True)
 
-model = create_model(conv_layers, dropout=0, input_size=(1407, 1025, 1))
-history = model.fit(train_dataset, epochs=16, callbacks=[early_stopping])
+model = create_model(conv_layers, dropout=0.05, input_size=(1407, 1025, 1))
+history = model.fit(train_dataset, epochs=128, callbacks=[early_stopping])
 
 model.save("music_emotion_classifier.h5")
 
