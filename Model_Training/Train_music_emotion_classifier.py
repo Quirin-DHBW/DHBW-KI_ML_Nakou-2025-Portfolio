@@ -45,7 +45,7 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
     
     for filters, kernel_size in conv_layers:
         model.add(k.layers.Conv2D(filters, kernel_size, activation='relu', padding='same'))
-        model.add(k.layers.MaxPooling2D((4, 4)))
+        model.add(k.layers.MaxPooling2D((2, 2)))
         model.add(k.layers.Dropout(dropout))
     
     model.add(k.layers.Flatten())

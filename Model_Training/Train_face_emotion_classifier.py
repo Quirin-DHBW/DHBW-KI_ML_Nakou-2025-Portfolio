@@ -14,7 +14,6 @@ if __name__ == "__main__":
     os.chdir(pathlib.Path(sys.path[0]).parent)
 
 import numpy as np
-import pandas as pd
 
 import tensorflow as tf
 from tensorflow import keras as k
