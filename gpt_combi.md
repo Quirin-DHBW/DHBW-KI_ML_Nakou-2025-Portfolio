@@ -4,68 +4,101 @@ Tim Schacht, Quirin Barth
 ## Projektumfang
 
 ### Zielsetzung
-Das Ziel des Projekts VibeluX ist es, zwei Convolutional Neural Networks (CNNs) zu trainieren, die jeweils Eingaben einer von sieben Emotionen zuordnen können: Wut, Ekel, Angst, Freude, Neutral, Trauer und Überraschung.
 
-Ein Modell wird darauf trainiert, Emotionen in Gesichtern zu erkennen, während das andere Modell Musik nach emotionalen Merkmalen klassifiziert. Basierend auf den Vorhersagen beider Modelle soll dem Benutzer eine passende Musikauswahl vorgeschlagen werden. Eine potenzielle Anwendung wäre eine verborgene Funktion innerhalb eines Musik-Streaming-Dienstes, die die Zufallswiedergabe unauffällig an die Stimmung des Nutzers anpasst.
+Das Ziel dieses Projekts ist die Entwicklung und das Training von zwei Convolutional Neural Networks (CNNs), die jeweils Eingaben in eine von sieben Emotionen klassifizieren: 
+- Wut (angry)
+- Ekel (disgusted)
+- Angst (fearful)
+- Freude (happy)
+- Neutral (neutral)
+- Trauer (sad)
+- Überraschung (surprised)
+
+Eines der Modelle wurde darauf trainiert, Emotionen in Gesichtern zu erkennen, das andere darauf, Emotionen in Musikstücken zu klassifizieren. Durch die Kombination der Vorhersagen beider Modelle soll es möglich sein, einem Nutzer basierend auf seinem aktuellen emotionalen Zustand Musik zu empfehlen. Eine weitere potenzielle Anwendung wäre die Integration in eine Musik-App, um deren Shuffle-Algorithmus subtil an die Stimmung des Nutzers anzupassen.
+
+Das zur Gesichtserkennung verwendete Datenset stammt von Kaggle:
+[https://www.kaggle.com/datasets/ananthu017/emotion-detection-fer/data](https://www.kaggle.com/datasets/ananthu017/emotion-detection-fer/data)
+
+Die Musikstücke zur Klassifikation wurden von einer Plattform für lizenzfreie Musik bezogen:
+[https://pixabay.com/music/](https://pixabay.com/music/)
 
 ### Datenstruktur
-Die Verzeichnisstruktur von VibeluX setzt sich folgendermaßen zusammen:
 
-- **Data**: Enthält die Verzeichnisse `archive` für Bilder und `audio` für Audiodateien.
-  - **archive**: Beinhaltet die Unterordner `test` und `train`, die PNG-Dateien der sieben Hauptemotionen enthalten.
-  - **audio**: Enthält `Processed` für transformierte Spektrogramm-Daten und `RAW` für MP3-Dateien.
+Die Verzeichnisstruktur von VibeluX ist folgendermaßen aufgebaut:
 
-- **Model_Training**: Beinhaltet Skripte zur Datenverarbeitung und zum Training der Modelle:
-  - `Music_preprocessor.py`: Wandelt MP3-Dateien in normierte Spektrogramme um.
-  - `Train_face_emotion_classifier.py`: Trainiert ein CNN zur Gesichtsemotionserkennung.
-  - `Train_music_emotion_classifier.py`: Trainiert ein CNN zur Musik-Emotion-Klassifikation.
+- **Data**: Enthält die Verzeichnisse `archive` für Bild- und `audio` für Audiodateien.
+  - **archive**: Beinhaltet die Unterordner `test` und `train`, welche PNG-Dateien für die sieben Hauptemotionen enthalten.
+  - **audio**: Besteht aus den Ordnern `Processed` für Spektrogramm-Daten der Musikstücke und `RAW` für die ursprünglichen MP3-Dateien.
 
-- **Weitere Skripte**:
-  - `generate_song_embeddings.py`: Erstellt eine JSON-Datei mit den zugeordneten Emotionen der Songs.
-  - `webcam_face_recognition.py`: Erfasst und verarbeitet Gesichter über die Gerätekamera.
-  - `main.py`: Das Hauptskript zur Durchführung des gesamten Prozesses.
+- **Model_Training**: Enthält verschiedene Dateien und Skripte:
+  - `ausarbeitung.md`: Dokumentation des Projekts. # TODO: Warum ist das hier?
+  - `Music_preprocessor.py`: Skript zur Umwandlung von MP3-Dateien in normalisierte Spektrogramme.
+  - `Train_face_emotion_classifier.py`: Skript zum Training eines neuronalen Netzwerks zur Gesichtsemotionserkennung.
+  - `Train_music_emotion_classifier.py`: Skript zum Training eines neuronalen Netzwerks zur Klassifikation von Musik-Emotionen.
 
-### Vorgehensweise
-Die MP3-Dateien wurden in `Music_preprocessor.py` mit `librosa` in Spektrogramme umgewandelt. Danach wurde `Train_face_emotion_classifier.py` für das Training des Gesichtserkennungsmodells verwendet, während `Train_music_emotion_classifier.py` für die Musikklassifikation zuständig war.
+- **generate_song_embeddings.py**: Erstellt eine JSON-Datei, die Songtitel mit den durch das CNN generierten Emotionen verknüpft.
 
-Die Kamerafunktion `webcam_face_recognition.py` erfasst das Gesicht des Nutzers, das `face_emotion_classifier.h5`-Modell bestimmt die Emotion. Die JSON-Datei `song_embeddings.json` wird genutzt, um die ermittelte Emotion mit Songs abzugleichen.
+- **webcam_face_recognition.py**: Skript zur Gesichtserkennung über die Gerätekamera mit Bildformat-Normalisierung mittels `cv2`-Modul.
 
-## Theorie
+- **main.py**: Hauptskript zur Ausführung des gesamten Prozesses.
 
-### Convolutional Neural Networks (CNNs)
-CNNs zerlegen Eingaben in kleinere Abschnitte, analysieren diese und extrahieren relevante Merkmale. Mathematisch betrachtet, „faltet“ ein CNN die Daten über sich selbst und reduziert dabei die Größe, während es relevante Informationen verdichtet.
+### Theorie
 
-CNNs verwenden sogenannte „Filter“, die als gleitende Fenster bestimmte Muster in Bildern erkennen. Mehrere Schichten von Filtern können zunehmend komplexere Muster extrahieren. Dies ist besonders nützlich für Bild- und Audiodaten, da Strukturen und Frequenzen so effizient analysiert werden können.
+#### Convolutional Neural Networks (CNNs)
 
-### Maxpooling und Dropout
-- **Maxpooling**: Reduziert die Datenmenge, indem nur die relevantesten Merkmale beibehalten werden. Dies spart Rechenzeit und verhindert unnötige Redundanz.
-- **Dropout**: Schaltet während des Trainings zufällig Neuronen ab, um Überanpassung zu verhindern und das Modell robuster zu machen.
+Ein CNN verarbeitet Daten durch schrittweises Extrahieren relevanter Merkmale. Dabei werden Eingabedaten (z. B. Bilder oder Spektrogramme) durch Faltungsoperationen in immer kleinere, aber informationsreichere Repräsentationen überführt. Ähnlich wie bei menschlicher Wahrnehmung analysieren CNNs Muster und Strukturen durch Anwendung von Filtern. Diese Filter erkennen zunächst einfache Merkmale (z. B. Kanten) und später komplexere Muster.
 
-### Datensätze
-- **Gesichtsdaten**: 48x48-Graustufenbilder aus einem Kaggle-Datensatz.
-- **Musikdaten**: Songs mit emotionalen Labels, die auf 90 Sekunden gekürzt und in Spektrogramme umgewandelt wurden.
+#### Warum Maxpooling?
 
-Ein Spektrogramm stellt die Frequenzen eines Songs über die Zeit hinweg dar. Dies ermöglicht es, Musik als Bilddaten zu behandeln und CNNs zur Analyse zu nutzen.
+Maxpooling reduziert die Dimensionalität der Daten, indem es nur die relevantesten Informationen einer Region beibehält. Dadurch wird der Berechnungsaufwand gesenkt und Overfitting reduziert.
 
-### Modellarchitektur
-Beide Modelle bestehen aus mehreren CNN-, Maxpool- und Dropout-Schichten, gefolgt von voll verbundenen (dense) Schichten mit abnehmender Neuronenanzahl. Die finale Schicht hat sieben Neuronen mit einer Softmax-Aktivierungsfunktion, um die Emotionen vorherzusagen.
+#### Warum Dropout?
 
-Für das Training wurde die **SparseCategoricalCrossentropy**-Loss-Funktion verwendet, zusammen mit dem **AdamW**-Optimizer. Die Genauigkeit diente als zusätzliche Metrik zur Leistungsbewertung.
+Dropout deaktiviert während des Trainings zufällig einige Neuronen und skaliert die restlichen Aktivierungen entsprechend. Dies verbessert die Generalisierungsfähigkeit des Netzwerks und verhindert, dass sich das Modell zu stark an bestimmte Trainingsdaten anpasst.
 
-### Emotionale Embedding-Suche
-Anstatt nur die stärkste Emotion zur Musikauswahl zu nutzen, verwendet das System eine **Cosine-Similarity**-Methode. Dabei wird der emotionale Vektor des erkannten Gesichts mit den gespeicherten Emotionen der Songs verglichen, um eine möglichst präzise Empfehlung zu generieren.
+#### Gesichtsklassifikations-Datensatz
 
-## Ergebnisse
+Die Gesichtsbilder sind 48x48 Pixel große Graustufenbilder.
 
-### Gesichtserkennung
-Das Modell zur Gesichtserkennung wurde mit TensorFlow trainiert und erreichte nach weniger als 10 Minuten eine Genauigkeit von **54,5%**. Da es sieben Klassen gibt, von denen einige schwer zu unterscheiden sind (z. B. Wut und Trauer), ist dieses Ergebnis für unseren Zweck ausreichend. Zudem unterstützt es die Idee der **Emotion-Embeddings**, bei denen Emotionen als Mischverhältnisse der sieben Klassen dargestellt werden.
+#### Musikkategorisierungs-Datensatz
 
-### Musikklassifikation
-Das Musikmodell erreichte eine Loss von **1.94** und eine Genauigkeit von **14%**, ohne sich weiter zu verbessern. Dies liegt wahrscheinlich an der geringen Datenmenge (nur 80 Songs pro Emotion). Zudem sind Musik-Spektrogramme mit etwa **1000x1000 Pixeln** wesentlich komplexer als Gesichtsbilder mit **48x48 Pixeln**. Da Musik emotionale Vielfalt besitzt, fällt es dem Modell schwer, eindeutige Muster zu identifizieren.
+Die Musikstücke wurden nach Emotionen kategorisiert, auf 1:30 Minuten getrimmt und in Spektrogramme umgewandelt.
 
-### Embedding-Suche
-Die Cosine-Similarity-Methode funktioniert gut, aber aufgrund der schlechten Leistung des Musikmodells können keine realistischen Emotionsembeddings für Songs generiert werden. Tests mit synthetischen Daten zeigen jedoch, dass das Matching-System an sich einwandfrei arbeitet.
+#### Was sind Spektrogramme?
 
-## Fazit
-Die Gesichtserkennung liefert brauchbare Ergebnisse, während die Musikklassifikation unter zu wenigen Trainingsdaten leidet. Eine größere Datenbasis könnte die Leistung deutlich verbessern. Die Idee der Emotion-Embeddings bleibt dennoch vielversprechend und könnte mit einem besseren Musikmodell erfolgreich eingesetzt werden.
+Ein Spektrogramm visualisiert Frequenzinformationen über die Zeit. Mittels Fourier-Transformation werden die Frequenzen eines Audiosignals extrahiert und als Bild dargestellt. Da CNNs mit Bilddaten gut umgehen können, lassen sich auf diese Weise Musikstücke klassifizieren.
+
+#### Modellarchitektur
+
+Das Modell besteht aus mehreren CNN-Layern, die durch Maxpooling- und Dropout-Schichten ergänzt werden. Danach folgen zwei dichte Fully-Connected-Layer und eine abschließende Softmax-Ausgabe mit sieben Neuronen (für die sieben Emotionen).
+
+Als Loss-Funktion wurde `SparseCategoricalCrossentropy` gewählt, während `AdamW` als Optimierungsverfahren genutzt wurde. `AdamW` wurde aufgrund seiner besseren Gewichtsnormierung gegenüber `Adam` bevorzugt. Zusätzlich wurde die Genauigkeit (`accuracy`) als Metrik verfolgt.
+
+#### Emotionale Embedding-Suche
+
+Beide Modelle geben eine emotionale Vektorrepräsentation aus. Statt einfach nur eine einzelne dominante Emotion zu verwenden, wird die Ähnlichkeit zwischen der erkannten Emotion im Gesicht und den gespeicherten Musik-Embeddings mittels Kosinus-Ähnlichkeit berechnet. Dadurch kann ein passender Song empfohlen werden.
+
+### Ergebnisse
+
+#### Gesichtserkennung
+
+Das Gesichtserkennungsmodell wurde in TensorFlow implementiert und in weniger als 10 Minuten trainiert. Es erreichte eine Genauigkeit von 54,5%. Dies mag auf den ersten Blick gering erscheinen, ist aber angesichts der sieben Klassen und ihrer Ähnlichkeit (z. B. Wut vs. Trauer) akzeptabel. Dies legt außerdem nahe, dass Emotionen als Mischungen mehrerer Klassen betrachtet werden können.
+
+#### Musikklassifikation
+
+Das Musikklassifikationsmodell erreichte eine Loss von 1,94 und eine Genauigkeit von nur 14%, was schlechter als Zufallstreffer ist. Dies liegt wahrscheinlich an der geringen Anzahl an Trainingsdaten (nur 80 Songs pro Emotion, insgesamt 560 Songs) sowie der hohen Variabilität von Musikstücken im Vergleich zu Gesichtsausdrücken. Die aktuelle Architektur scheint nicht ausreichend, um relevante Muster aus den Spektrogrammen zu extrahieren.
+
+#### Emotionale Embedding-Suche
+
+Die Embedding-Suche funktioniert technisch, jedoch scheitert sie in der Praxis, da das Musikklassifikationsmodell keine sinnvollen Emotionsembeddings generieren kann. Mit künstlichen Beispiel-Embeddings funktioniert der Ansatz jedoch einwandfrei.
+
+#### Fazit
+
+Die Gesichtserkennung funktioniert gut, während die Musikklassifikation deutliche Schwächen aufweist. Es ist klar, dass das Modell für Musik entweder mehr Trainingsdaten oder eine tiefere Architektur benötigt. Die emotionale Embedding-Suche ist ein vielversprechender Ansatz, der mit einem funktionierenden Musikmodell effektiv eingesetzt werden könnte.
+
+# TODO
+- Theoretischen Teil ausbauen und mit Quellen versehen.
+- Fehlende Literatur zu CNN-Spektrogramm-Klassifikation ergänzen.
+- Einleitung am Ende schreiben.
+- Lösung für das Musikmodell finden: Mehr Trainingsdaten? Alternative Architektur?
 
