@@ -73,7 +73,8 @@ def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
 train_dataset = create_dataset("Data/archive/train")
 test_dataset = create_dataset("Data/archive/test")
 
-conv_layers = [(64, (5, 5)), 
+conv_layers = [(64, (8, 8)),
+               (32, (6, 6)), 
                (32, (4, 4)), 
                (32, (3, 3))]
 
