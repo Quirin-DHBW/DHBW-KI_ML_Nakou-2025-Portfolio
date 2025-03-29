@@ -1,60 +1,58 @@
 # VibeluX
 Tim Schacht, Quirin Barth
 
-## Idea/Scope
+## Idee/Umfang
 
-The goal is to train two convolutional neural networks, both of which will classify their given input into one of seven emotions: 
-anger, disgust, fear, happy, neutral, sad, and surprise.
-One of the models is trained to recognize faces, while the other is trained to recognize these emotions in music. Together the predictions of both models can be used to then recommend music to a user, based on their current emotional state. Other applications include some hidden internal feature that some music app might use, to subtly adjust their shuffle algorithm in a way that better fits the mood of the user.
+Das Ziel ist es, zwei Convolutional Neural Networks zu trainieren, die jeweils ihren gegebenen Input in eine von sieben Emotionen klassifizieren:
+Wut, Ekel, Angst, Freude, Neutral, Traurigkeit und Überraschung.
+Eines der Modelle wird darauf trainiert, Gesichter zu erkennen, während das andere darauf trainiert wird, diese Emotionen in Musik zu erkennen. Die Vorhersagen beider Modelle können dann verwendet werden, um einem Nutzer Musik basierend auf seinem aktuellen emotionalen Zustand zu empfehlen. Andere Anwendungen umfassen einige versteckte interne Features, die eine Musik-App nutzen könnte, um ihren Shuffle-Algorithmus subtil an die Stimmung des Nutzers anzupassen.
 
-To facilitate training, a dataset of faces was obtained from kaggle: https://www.kaggle.com/datasets/ananthu017/emotion-detection-fer/data
+Zur Erleichterung des Trainings wurde ein Datensatz von Gesichtern von Kaggle bezogen: https://www.kaggle.com/datasets/ananthu017/emotion-detection-fer/data
 
-The music used to train the other model was acquired from a royalty-free use sound website: https://pixabay.com/music/
-
+Die Musik für das Training des anderen Modells wurde von einer lizenzfreien Musikplattform bezogen: https://pixabay.com/music/
 
 ## Theorie
 
-### What are CNNs?
-Make thing into chunk, look at chunk, make smaller chunk, repeat, it can look at things by breaking them down!
-Mathematically? You're "folding" teh data across itself according to some rules, resulting in a smaller output, that is denser in information eg. (8 x 8 x 1) -> (4 x 4 x 4)
+### Was sind CNNs?
+Mache Dinge in Stücke, schaue auf Stücke, mache kleinere Stücke, wiederhole, es kann Dinge erkennen, indem es sie zerlegt!
+Mathematisch? Du "faltest" die Daten über sich selbst nach bestimmten Regeln, was zu einer kleineren Ausgabe führt, die dichter an Informationen ist, z. B. (8 x 8 x 1) -> (4 x 4 x 4)
 
-Simillarly to multilevel perceptrons, CNNs are based loosely on how human perception works, just in a more direct way in that it applies "filters" to an image, which are effectively a sliding window that checks for certain patterns, and outputs how present that pattern is. The resulting map of patterns can then be fed into the next CNN layer to recognizer larger continuous patterns! This means that by looking at the filters one might imagine being able to see what the CNN is thinking! This is sadly not actually the case, as there are many many many possible stable and functional local minima in the loss-function's space, resulting in most CNN filters being just as humanly incomprehensible as any other neural network.
+Ähnlich wie mehrschichtige Perzeptrons basieren CNNs lose auf der menschlichen Wahrnehmung, jedoch in direkterer Weise, indem sie "Filter" auf ein Bild anwenden. Diese Filter sind im Wesentlichen ein gleitendes Fenster, das nach bestimmten Mustern sucht und ausgibt, wie stark dieses Muster vorhanden ist. Die resultierende Musterkarte kann dann an die nächste CNN-Schicht weitergegeben werden, um größere zusammenhängende Muster zu erkennen! Das bedeutet, dass man sich vorstellen könnte, durch Betrachtung der Filter zu sehen, was das CNN "denkt"! Leider ist dies nicht wirklich der Fall, da es viele mögliche stabile und funktionale lokale Minima im Raum der Verlustfunktion gibt, sodass die meisten CNN-Filter genauso schwer verständlich sind wie jedes andere neuronale Netzwerk.
 
-### Why maxpooling?
-Squish the data, make it squished, now less data with hopefully still relevant information -> Less computation, yay :D
+### Warum Maxpooling?
+Quetsche die Daten, mache sie kleiner, jetzt weniger Daten mit hoffentlich noch relevanter Information -> Weniger Berechnung, yay :D
 
-### Why Dropout?
-Dropout randomly "disables" neurons or equivalents in a network during training, and rescales outputs to still be properly backpropagationable. This is a regularization method used to reduce overfitting, and in general force the model to learn more relevant features spread across more of it's neurons, which helps the network actually use more neurons instead of just ignoring certain neurons later in it's training (see relu getting stuck at 0 and "dying")
+### Warum Dropout?
+Dropout deaktiviert während des Trainings zufällig Neuronen oder ihre Entsprechungen in einem Netzwerk und skaliert die Ausgaben so, dass sie immer noch korrekt zurückpropagiert werden können. Dies ist eine Regularisierungsmethode, die Überanpassung reduziert und das Modell dazu zwingt, relevantere Merkmale zu lernen, die auf mehr Neuronen verteilt sind. Dadurch wird das Netzwerk dazu gebracht, tatsächlich mehr Neuronen zu nutzen, anstatt später im Training bestimmte Neuronen einfach zu ignorieren (siehe ReLU, das bei 0 stecken bleibt und "stirbt").
 
-### Face Classification dataset
-48x48 greyscale faces!
+### Gesichts-Klassifikations-Datensatz
+48x48 Graustufen-Gesichter!
 
-### Music Classification dataset
-Songs that were tagged with their emotion or a synonym for that emotion were picked, all cropped/padded to be 1:30 long, and then converted into Spectrograms.
+### Musik-Klassifikations-Datensatz
+Lieder, die mit ihrer Emotion oder einem Synonym dieser Emotion getaggt wurden, wurden ausgewählt, alle auf 1:30 Länge zugeschnitten/gepolstert und dann in Spektrogramme umgewandelt.
 
-### What are Spectrograms?
-Music is frequencies? Fourier transform to get frequencies! plot frequencies (y) over time (x) with their volume/amplitude as a color (greyscale) and you get a spectrogram fully describing the audio!!! These can be converted back into audio even! But for the purposes of this Project, it means we can turn music into images that fully describe the music. By clipping or buffering the music to always be 1:30 long, we can ensure the images always have the same format, letting us use them as a CNN imput without much difficulty.
+### Was sind Spektrogramme?
+Musik besteht aus Frequenzen? Fourier-Transformation zur Frequenzgewinnung! Frequenzen (y) über Zeit (x) mit ihrer Lautstärke/Amplitude als Farbe (Graustufen) plotten, und du erhältst ein Spektrogramm, das das Audio vollständig beschreibt!!! Diese können sogar zurück in Audio umgewandelt werden! Für dieses Projekt bedeutet das aber, dass wir Musik in Bilder umwandeln können, die sie vollständig beschreiben. Indem wir die Musik auf genau 1:30 Länge zuschneiden oder puffern, können wir sicherstellen, dass die Bilder immer dasselbe Format haben, was sie als CNN-Input problemlos nutzbar macht.
 
-Why though? Because previously research has shown that CNN's don't really care if the image is human readable, they just care if the image contains details that can lead to conclusions about the classification. As such, it has been proven that one can train a CNN on music spectrograms, and achieve good results! [TODO](QUIRIN GO FIND SOME SOURCES)
+Warum das Ganze? Weil frühere Forschungen gezeigt haben, dass CNNs nicht unbedingt menschenlesbare Bilder brauchen, sondern nur Details, die zur Klassifikation genutzt werden können. Es wurde bereits bewiesen, dass man ein CNN auf Musik-Spektrogramme trainieren kann und damit gute Ergebnisse erzielt! [TODO](QUIRIN GEH UND FINDE QUELLEN)
 
-### Model Architecture
-Several CNN->Maxpool->Dropout Layers (differs depending on face or music classifier)
-2x Dense with ever decreasing neuron count and Dropout
-1x Dense layer with 7 neurons and softmax activation function
+### Modellarchitektur
+Mehrere CNN->Maxpool->Dropout-Schichten (unterscheiden sich je nach Gesichts- oder Musikklassifikator)
+2x Dense mit abnehmender Neuronenzahl und Dropout
+1x Dense-Schicht mit 7 Neuronen und Softmax-Aktivierungsfunktion
 
-Dropout was chosen as a regularization method.
+Dropout wurde als Regularisierungsmethode gewählt.
 
-We are using the SparsecategoricalCrossentropy Loss for training, alongside AdamW. (AdamW was chosen over Adam for it's weight normalization)
-Accuracy was tracked as an additional metric, to allow for more straightforward comparison.
+Wir verwenden die SparsecategoricalCrossentropy Loss für das Training, zusammen mit AdamW. (AdamW wurde gegenüber Adam aufgrund seiner Gewichtsnormierung gewählt.)
+Genauigkeit wurde als zusätzliche Metrik verfolgt, um einen einfacheren Vergleich zu ermöglichen.
 
-### Emotional Embedding search
-Both models produce an emotional "vector", classifying the face or music into an emotion. Music has many facets, and so instead of just detecting the primary emotion and picking songs that were classified with a fitting emotion, we instead opted to use cosine-similarity to pick the song(s) that have the closest match to all 7 emotions detected in the face.
+### Emotionale Einbettungssuche
+Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Lieder auszuwählen, haben wir stattdessen die Kosinus-Ähnlichkeit verwendet, um das Lied oder die Lieder zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
 
-## Result
-Face recognition? Works! A simple network was thrown together in tensorflow, and trained over less than 10 minutes, and has yielded acceptable results! Accuracy of 0.545 (which sounds pretty low, but with 7 classes, where some can look simillar to one another eg. angry and sad for example, this is good enough for out purposes, it also leads to the idea of emotion-embeddings, with mixtures of the 7 classes)
+## Ergebnis
+Gesichtserkennung? Funktioniert! Ein einfaches Netzwerk wurde in TensorFlow erstellt und in weniger als 10 Minuten trainiert und lieferte akzeptable Ergebnisse! Genauigkeit von 0,545 (was niedrig klingt, aber mit 7 Klassen, von denen einige ähnlich aussehen können, z. B. wütend und traurig, ist dies für unsere Zwecke gut genug, zudem ergibt sich daraus die Idee von Emotionseinbettungen mit Mischungen der 7 Klassen).
 
-Music recognition? Training approaches a loss of 1.94 / accuracy of 0.14, which it then never improves on. Notably this means the model never improves beyond picking randomly, and in fact performs worse than picking randomly regularly. This is likely due to a lack of training data, as there are currently only 80 songs per emotion (total of 560 songs), and a song's spectrogram is a rather large image (~1k), requiring a larger model than the face recognition's mere 48x48. Music is also much much more varied in expression than a human face is, meaning there are many different ways to make a "happy" song. This iresults in the model seemingly having a very difficult time picking out relevant details from the tiny amount of training data.
+Musikerkennung? Das Training nähert sich einem Verlust von 1,94 / Genauigkeit von 0,14 und verbessert sich danach nicht weiter. Bemerkenswert ist, dass das Modell niemals besser als zufällige Auswahl wird und tatsächlich oft schlechter abschneidet. Dies liegt wahrscheinlich an einem Mangel an Trainingsdaten, da derzeit nur 80 Lieder pro Emotion (insgesamt 560 Lieder) vorhanden sind und ein Lied-Spektrogramm ein ziemlich großes Bild (~1k) ist, was ein größeres Modell erfordert als die 48x48 der Gesichtserkennung.
 
-Embedding search via cosine-similarity? Works in testing, but the music classifier doesn't work properly, so we cannot currently generate **real** embeddings for songs.
-The embedding search *does* work just fine when provided with fake example embeddings, meaning it would also work if there were actual song emotion-embeddings.
+Einbettungssuche mittels Kosinus-Ähnlichkeit? Funktioniert in Tests, aber der Musikklassifikator funktioniert nicht richtig, sodass wir derzeit keine **echten** Einbettungen für Lieder erzeugen können.
 
