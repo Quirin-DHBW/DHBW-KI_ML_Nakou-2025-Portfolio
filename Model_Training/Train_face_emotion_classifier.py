@@ -108,6 +108,28 @@ def plot_history(history):
     
     plt.show()
 
+def plot_confusion_matrix(model, dataset):
+    # Plot confusion matrix using model predictions on test dataset.
+    y_true = np.concatenate([y for x, y in dataset], axis=0)
+    y_pred = np.argmax(model.predict(dataset), axis=1)
+    
+    cm = tf.math.confusion_matrix(y_true, y_pred).numpy()
+    
+    plt.figure(figsize=(10, 8))
+    plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    plt.title('Confusion Matrix')
+    plt.colorbar()
+    
+    tick_marks = np.arange(7)
+    plt.xticks(tick_marks, range(7))
+    plt.yticks(tick_marks, range(7))
+    
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    
+    plt.show()
+
+plot_confusion_matrix(model, test_dataset)
 
 plot_history(history)
 
