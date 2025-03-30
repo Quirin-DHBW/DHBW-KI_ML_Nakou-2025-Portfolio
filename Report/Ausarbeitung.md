@@ -151,11 +151,14 @@ Diesen Funktionen folgt die Durchführung des Trainings.
 Dazu werden zunächst Trainings- und Test-Datensatz aus den angegebenen Verzeichnissen geladen.
 Anschließend wird das neuronale Netzwerk mit vier Convolutional-Layers unterschiedlicher Filtergröße initialisiert, um mehr verschiedene Merkmale aus den Bildern zu extrahieren.
 Für den Fall, dass sich der Validations-Loss-Wert durch das Training nicht genügend verbessert, wird ein frühzeitiger Abbruchsmechanismus definiert und anschließend wird das Model für 100 Epochen trainiert.
-Nach erfolgreichem Training wird die Modelleistung durch die zwei Visualisierungsfunktionen `plot_history` und `plot_confusion_matrix` analysiert. Die daraus resultierenden Visualisierungen finden sich in den Abbildungen [Abbildung 3](#abbildung-3-accuracy--und-loss-verlauf-über-die-trainierten-epochen) und [Abbildung 4](#abbildung-4-confusion-matrix-des-gesichtsklassifikations-modells-die-label-0-6-entsprechen-angry-disgusted-fearful-happy-neutral-sad-surprised) wieder, auf die in Ergebnisse und Diskussion genauer eingegangen wird.
+Nach erfolgreichem Training wird die Modelleistung durch die zwei Visualisierungsfunktionen `plot_history` und `plot_confusion_matrix` analysiert. Die daraus resultierenden Visualisierungen finden sich in [Abbildung 3](#abbildung-3-accuracy--und-loss-verlauf-über-die-trainierten-epochen) und [Abbildung 4](#abbildung-4-confusion-matrix-des-gesichtsklassifikations-modells-die-label-0-6-entsprechen-angry-disgusted-fearful-happy-neutral-sad-surprised) wieder, auf die im Kapitel Ergebnisse und Diskussion genauer eingegangen wird.
 Das trainierte Modell wird schlussendlich als `face_emotion_classifier.h5` gespeichert, um es später in `main.py` verwenden zu können.
 
 #### Musikdaten-Aufbereitung
-Die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` wurden in `Music_preprocessor.py` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation wurden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
+<<<<<<< HEAD
+In `Music_preprocessor.py` werden die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation werden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
+=======
+
 ```python
 def audio_to_spectrogram(audio_path:str, output_path:str, sample_rate:int=8000, sample_len_sec:int=90) -> None:
     y, sr = librosa.load(audio_path, sr=sample_rate)
@@ -172,6 +175,7 @@ def process_directory(directory_path:str, output_directory:str) -> None:
     for audio_file in pathlib.Path(directory_path).glob('*.mp3'):
         audio_to_spectrogram(audio_file, f"{output_directory}/{pathlib.Path(audio_file).stem}.png")
 ```
+>>>>>>> e7ae41e8c002ecaa852d0a118f2e8f3e2430fb8f
 Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
 
 #### Musik-Klassifikations-Training
