@@ -159,15 +159,11 @@ Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Method
 #### Musik-Klassifikations-Training
 `Train_music_emotion_classifier.py` trainierte ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen. Im Unterschied zu dem Gesichtsemotionsklassifikationsmodell ist das Musikemotionsklassifikationsmodell beinahe identisch, denn die Anzahl and CNN Layer, sowie die Filteranzahl und Kernelgröße wurden erhöht, um der Bildgröße der Spektrogrammen nachzukommen. Dazu wurden auch die Inputgrößen von `create_dataset()` und `create_model()` and die der Spektrogramme andgepasst.
 
-### Main-Programmausführung
-Anschließend wurde das `main.py` Skript erstellt, in dem die endgültige Programmausführung stattfindet.
-In diesem werden zunächst alle erforderlichen Bibliotheken importiert, 
+#### Webcam_face_recognition.py
+Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
 
 #### face_emotion_classifier.h5
 Das CNN-Modell `face_emotion_classifier.h5` ermittelt die Emotion des Gesichts.
-
-#### Webcam_face_recognition.py
-Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
 
 #### song_embeddings.json
 Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song später identifizieren zu können. Hierbei folgen die Einträge dem Schema einse Dictionary, in welchem der Dateipfad der Key ist, und der dazu gespeicherte Wert der jeweilige Embedding Vektor.
@@ -175,6 +171,10 @@ Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit 
 ### Emotions-Embedding-Suche
 Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Musikstücke auszuwählen, haben wir stattdessen die Cosine-Similarity verwendet, um das Musikstück oder die Musikstücke zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
 
+### Main-Programmausführung
+Anschließend wurde das `main.py` Skript erstellt, in dem die endgültige Programmausführung stattfindet.
+In diesem werden zunächst alle erforderlichen Bibliotheken importiert, sowie eine Hilfsfunktion aus `webcam_face_recognition.py` zum Erfassen eines Gesichts. Anschließend wird zuerst das Gesichtsemotionsklassifikationsmodell geladen, und anschließend ein Bild über die Webcam des Benutzers aufgenommen. Dieses Bild wird darauf folgend mithilfe des Gesichtsemotionsklassifikationsmodells zu einem Emotionsvektor umgewandelt.
+Mithilfe dieses Vektors wird durch Cosine-Similarity jetzt in der `song_embeddings.json` Datei nach einem Best-Passendem Musikstück gesucht.
 
 ## Ergebnisse und Diskussion
 Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in Abbildung 1 zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auf mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann, wie in Abbildung 2 zu sehen ist. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
