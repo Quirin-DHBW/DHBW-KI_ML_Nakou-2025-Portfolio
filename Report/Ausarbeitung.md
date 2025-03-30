@@ -47,11 +47,9 @@ Cosine-Similarity ist eine Methode zum Vergleichen der Ähnlichkeit zwischen zwe
 ### Datenstruktur des Repositories
 Die Verzeichnisstruktur von VibeluX setzt sich folgendermaßen zusammen:
 
-**Data**: Enthält die Verzeichnisse `archive`, für Bild-, und `audio`, für Audio-Dateien.
+**Data**: Enthält die Verzeichnisse für die Traingsdaten.
   - **archive**: Besteht aus den Unterordnern `test` und `train`, die jeweils PNG-Dateien für die sieben verschiedene "Haupt-Emotionen" (angry, disgusted, fearful, happy, neutral, sad, surprised) enthalten.
   - **audio**: Beinhaltet die Ordner `Processed`, für die Spektrogramm-Daten transformierter Songs, und `RAW`, für die MP3-Dateien derselben Songs.
-
-**img**: Enhält Bilder für die README und diese Ausarbeitung.
 
 **Model_Training**: Enthält die folgenden Dateien und Skripte:
   - `Music_preprocessor.py`: Ein Skript zur Umwandlung von MP3-Dateien in normierte Spektrogramme.
@@ -65,8 +63,6 @@ Die Verzeichnisstruktur von VibeluX setzt sich folgendermaßen zusammen:
 **webcam_face_recognition.py**: Ein Skript für die Einbindung der Kamera des VibluX ausführenden Gerätes inklusive Gesichtserkennung und Bildformat-Normierung mittels OpenCV und der dazugehörenden Python anbindung durch das `cv2`-Moduls.
 
 **main.py**: Das Hauptskript zur Durchführung des gesamten Prozesses der Gesichtsklassifikation, und anschließenden Embeddingsuche nach einem passenden Musikstück.
-
-ALLE WEITEREN MÜSSEN ENTWEDER NOCH GENANNT ODER GELÖSCHT/SORTIERT WERDEN
 
 ### Datensammlung
 Im ersten Schritt wurde eruiert, welche Daten für die Umsetzung einer Emotionszuordung zu Gesichtern und Musikstücken nötig sind.
