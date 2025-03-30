@@ -183,13 +183,13 @@ Das trainierte Modell wird zu Programmende als `music_emotion_classifier.h5` ges
 ### Prozessverlauf des Prototyps
 
 #### Gesichtserkennung
-Über `webcam_face_recognition.py` wird auf die primäre Gerätekamera zugegriffen, um ein Gesicht zu erfassen. Diese wird zu einem Graustufenbild konvertiert, und anschließend aud die richtige Größe von 48x48 Pixel zugeschnitten, und in `zoomed_face.png` abgelegt.
-
-#### song_embeddings.json
-In der JSON-Datei `song_embeddings.json` werden die Musikstücke und ihre dazugehörigen Emotionsvektoren gespeichert, um das am besten passende Musikstück später identifizieren zu können. Hierbei folgen die Einträge dem Schema einse Dictionary, in welchem der Dateipfad der Key ist, und der dazu gespeicherte Wert der jeweilige Embedding Vektor.
+Über `webcam_face_recognition.py` wird auf die primäre Gerätekamera zugegriffen, um ein Gesicht zu erfassen. Diese wird zu einem Graustufen-Bild konvertiert, und anschließend aud die richtige Größe von 48x48 Pixel zugeschnitten, und in `zoomed_face.png` abgelegt.
 
 ### Emotions-Embedding-Suche
 Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Musikstücke auszuwählen, haben wir stattdessen die Cosine-Similarity verwendet, um das Musikstück oder die Musikstücke zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
+
+#### song_embeddings.json
+Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song später identifizieren zu können. Hierbei folgen die Einträge dem Schema eines Dictionarys, in welchem der Dateipfad der Key ist und der dazu gespeicherte Wert der jeweilige Embedding Vektor.
 
 ### Main-Programmausführung
 Anschließend wurde das `main.py` Skript erstellt, in dem die endgültige Programmausführung stattfindet.
