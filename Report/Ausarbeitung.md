@@ -96,7 +96,7 @@ Wie hier zu sehen ist, hat die Emotionsklasse "happy" mit über 25% bei weitem d
 
 #### Gesichts-Klassifikations-Training
 Für das Aufstellen und Trainieren eines CNN-Modells zur Emotionszuordnung zu Gesichtern wurde `Train_face_emotion_classifier.py` erstellt.
-Zunächst werden die erforderlichen Bibliotheken importiert, darunter `TensorFlow` und `Keras` für das neuronale Netzwerk, `NumPy` für numerische Berechnungen sowie `Matplotlib` für die spätere Visualisierung der Trainingsergebnisse.
+Dort werden zunächst die erforderlichen Bibliotheken importiert, darunter `TensorFlow` und `Keras` für das neuronale Netzwerk, `NumPy` für numerische Berechnungen sowie `Matplotlib` für die spätere Visualisierung der Trainingsergebnisse.
 Anschließend werden die zwei Grundfunktionen des Programms, `create_dataset` und `create_model` definiert.
 
 ```python
@@ -149,8 +149,10 @@ Um den Output dieser Schichten für die darauffolgende Klassifikation vorzuberei
 Diesem folgen drei vollständig verbundene Dense-Layer mit abnehmender Neuronenzahl für die Klassifikation der zuvor extrahierten Merkmale, was in einer Softmax-Ausgabe mit den sieben klassifizierten Emotionsklassen resultiert.
 Diesen Funktionen folgt die Durchführung des Trainings.
 Dazu werden zunächst Trainings- und Test-Datensatz aus den angegebenen Verzeichnissen geladen.
-Anschließend 
-
+Anschließend wird das neuronale Netzwerk mit vier Convolutional-Layers unterschiedlicher Filtergröße initialisiert, um mehr verschiedene Merkmale aus den Bildern zu extrahieren.
+Für den Fall, dass sich der Validations-Loss-Wert durch das Training nicht genügend verbessert, wird ein frühzeitiger Abbruchsmechanismus definiert und anschließend wird das Model für 100 Epochen trainiert.
+Nach erfolgreichem Training wird die Modelleistung durch die zwei Visualisierungsfunktionen `plot_history` und `plot_confusion_matrix` analysiert. Die daraus resultierenden Visualisierungen finden sich in den Abbildungen ?????????????? und ????????????? wieder, auf die in Ergebnisse und Diskussion genauer eingegangen wird.
+Das trainierte Modell wird schlussendlich als `face_emotion_classifier.h5` gespeichert, um es später in `main.py` verwenden zu können.
 
 #### Musikdaten-Aufbereitung
 Die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` wurden in `Music_preprocessor.py` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation wurden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
