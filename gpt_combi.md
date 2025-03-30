@@ -44,7 +44,7 @@ Die Verzeichnisstruktur von VibeluX setzt sich folgendermaßen zusammen:
   - `Train_face_emotion_classifier.py`: Ein Skript für das Training eines neuronalen Netzwerks zur Gesichtsemotionserkennung.
   - `Train_music_emotion_classifier.py`: Ein Skript für das Training eines neuronalen Netzwerks zur Musik-Emotions-Zuordnung.
 
-**Songs**: Enthält die MP3-Dateien der im Rahmen des Projekts verwendeten Songs. ???????????????????????????????????
+**Songs**: was ist hier drin? ???????????????????????????????????
 
 **generate_song_embeddings.py**: Erstellt eine JSON-Datei, die den Songdateinamen den durch ein CNN generierten Emotionen zuordnet.
 
@@ -59,15 +59,11 @@ Im ersten Schritt wurde eruiert, welche Daten für die Umsetzung einer Emotionsz
 Dabei ergab sich, dass für die Gesichtsdaten ein Datensatz benötigt wird, in dem frontal aufgenommene Nahaufnahmen von Gesichtern enthalten sind, vorklassifiziert nach den jeweilig dargestellten Gesichtsemotionen.
 Ein solcher Datensatz konnte in der Online-Community Kaggle gefunden werden, in der er zur freien Weiterverarbeitung zur Verfügung gestellt wurde (Emotion Detection, 2020).
 Durch die Wahl dieses Datensatzes waren aufgrund seiner Struktur somit die Anzahl an erkennbaren Emotionen auf 7 festgelegt.
-Daraufhin wurden die Musikdateien für das Training des Musik-Emotions-zuordnenden Modells von der lizenzfreien Musikplattform Pixabay bezogen (Pixabay, a Canva Germany GmbH brand, o. D.). Auf dieser Seite können Musikstücke mit Tags versehen werden, nach denen getaggte Musikstücke anschließend über eine Suchfunktion identifiziert werden können. Für die Erstellung des Musikdatensatzes wurde daher nach den 7 erkennbaren Emotionen und ihren Synonymen gesucht und dabei erhaltene Suchergebnisse in den Datensatz `Songs` aufgenommen und mit der jeweils gesuchten Emotion vorklassifiziert.
+Daraufhin wurden die Musikdateien für das Training des Musik-Emotions-zuordnenden Modells von der lizenzfreien Musikplattform Pixabay bezogen (Pixabay, a Canva Germany GmbH brand, o. D.). Auf dieser Seite können Musikstücke mit Tags versehen werden, nach denen getaggte Musikstücke anschließend über eine Suchfunktion identifiziert werden können. Für die Erstellung des Musikdatensatzes wurde daher nach den 7 erkennbaren Emotionen und ihren Synonymen gesucht und dabei erhaltene Suchergebnisse in den Datensatz `RAW` aufgenommen und mit der jeweils gesuchten Emotion vorklassifiziert. Es wurden für jede Emotionsklasse 80 Musikstücke herausgesucht, woraus sich eine Gesamtheit von 560 Musikstücken in dem erstellten Datensatz ergab.
 
-
-### Musikdaten-Aufbereitung
-Die vorklassifizierten MP3-Dateien aus `Songs` wurden in `Music_preprocessor.py` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation wurden sie anschließend in Spektrogramme umgewandelt und in normierter Form gespeichert.
-Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
 
 ### Gesichts-Klassifikations-Datensatz
-48x48 Graustufen-Gesichter, welche nah and das zu erkennende Gesicht zugeschnitten sind. In dem Datensatz befinden sich insgesamt 28709 Bilder in dem Trainingsdatensatz, und 7178 Bildern im Validierungsdatensatz. Die Bilder sind nicht gleichmäßig under den sieben Emotionsklassen verteilt, also haben manche Emotionsklassen weitaus mehr Trainingsdaten als andere. In der untenstehenden Tabelle sind die prozentualen Anteile der einzelnen Emotionsklassen im Datensatz angegeben:
+Der Kaggle-Datensatz enthält 48x48 Pixel große Graustufen-Bilder, welche auf das zu erkennende Gesicht in Nahaufnahme zugeschnitten sind. Der Datensatz ist aufgeteilt in einen Trainingsdatensatz mit insgesamt 28709 Bildern und einen Validierungsdatensatz mit 7178 Bildern. Die Bilder sind nicht gleichmäßig über die sieben Emotionsklassen verteilt, also haben manche Emotionsklassen mehr Trainingsdaten als andere. In der folgenden Tabelle sind die prozentualen Anteile der einzelnen Emotionsklassen im Datensatz angegeben:
 
 |Emotionsklasse|Prozent v. Desamtdatensatz|
 |-:|:-|
@@ -79,35 +75,44 @@ Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Method
 |sad|16.8%|
 |surprised|11%|
 
-Wie hier zu sehen ist hat die Emotionsklasse "happy" mit über 25% bei weitem die meisten Trainingsdaten. "disgusted" nimmt wiederum nur 1.5% des Trainningsdatensatzes ein, wodurch es wahrscheinlich weitaus schlechter erkannt werden wird.
+???????????????? tabellenverzeichnis und/oder tabellenmbeschreibungen (und für abbildungen ebenfalls) ja nein??????????????????
 
-### Musik-Klassifikations-Datensatz
-Musikstücke, die mit ihrer Emotion oder einem Synonym dieser Emotion auf Pixabay getaggt waren wurden ausgewählt, alle auf 1:30 Länge zugeschnitten/gepolstert und dann bei einer Bitrate von 8k in Spektrogramme umgewandelt.
-Es wurden für jede Emotionsklasse 80 Musikstücke herausgesucht, was zu insgesamt 560 Musikstücken in diesem Datensatz führt.
+Wie hier zu sehen ist, hat die Emotionsklasse "happy" mit über 25% bei weitem die meisten Trainingsdaten. "disgusted" nimmt wiederum nur 1.5% des Trainningsdatensatzes ein, wodurch es wahrscheinlich weitaus schlechter erkannt werden wird.
 
-### Main-Programmausführung
+### Musikdaten-Aufbereitung
+Die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` wurden in `Music_preprocessor.py` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation wurden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
+Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
+
+### Main-Programmausführung (Main muss wieder angepasst werden - ist ja noch in der präsentationsform)
 Anschließend wurde `Train_face_emotion_classifier.py` verwendet, um ein CNN-Modell für die Gesichtsemotionserkennung zu trainieren.
+#### Train_face_emotion_classifier.py
+
 `Train_music_emotion_classifier.py` trainierte ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen.
+#### Train_music_emotion_classifier.py
 
 Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
+#### Webcam_face_recognition.py
+
 Das CNN-Modell `face_emotion_classifier.h5` ermittelt die Emotion des Gesichts.
+#### face_emotion_classifier.h5
+
 Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song zu identifizieren.
+#### song_embeddings.json
 
-### Emotionale Embedding Suche
-Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Musikstücke auszuwählen, haben wir stattdessen die Kosinus-Ähnlichkeit verwendet, um das Musikstück oder die Musikstücke zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
+### Emotions-Embedding-Suche
+Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Musikstücke auszuwählen, haben wir stattdessen die Cosine-Similarity verwendet, um das Musikstück oder die Musikstücke zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
 
-
-## Ergebnis
-Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines ziemlich niedrigen Accuracy Score von 0.545. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auch mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann. (z.B.: Traurigkeit und Wut teilen sich ein paar Gesichtsmerkmale)
+## Ergebnisse und Diskussion
+Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in Abbildung 1 zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auch mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
 ![Curves showing loss and accuracy over the course of training.](img/Training_Curves.png)
+Abbildung 1: Accuracy- und Loss-Verlauf über die trainierten Epochen. 
 ![Confusion matrix for the Face Classifier.](img/Confusion_Matrix.png)
+Abbildung 2: Confusion Matrix des Gesichtsklassifikations-Modells 
+???????????????? muss angesprochen werden im Text ?????????????????
 
-Die Musikemotionsklassifikation ist jedoch nicht für die gedachte Anwendung geeignet. Der loss nähert sich bei Training an 1.94 an, und der accuracy score 0.14. Eine accuracy von grob 0.14 entspricht jedoch effektiv dem Zufall. Die schlechte performance des Modells lässt sich sehr einfach auf den Mangel an Trainingsdaten zurückführen, da ein Spektrogramm sehr viele kleine details enthalten, und Musik ein sehr vielseitiges Medium in der ausdrückung von Emotionen darstellt. Es gibt zum beispiel viel Musikstücke welche man als "happy" klassifizieren könnte, welche aber vom Klang und Verlauf des Musikstücks komplett unvergleichlich sind.
+Die Musikemotionsklassifikation in der bisher umgesetzten Form ist allerdings nicht für die gedachte Anwendung geeignet. Der loss nähert sich beim Training an 1.94 an, und der accuracy score 0.14. Eine accuracy von grob 0.14 entspricht jedoch effektiv dem Zufall. Die schlechte performance des Modells lässt sich sehr einfach auf den Mangel an Trainingsdaten zurückführen, da die in einem Spektrogramm enthaltene Informationsdichte sehr hoch ist, wodurch die Größe des erhobenen Datensatzes für das Modell nicht ausreicht, um Kernmerkmale erlernen zu können. Außerdem ist Musik ein sehr vielseitiges und subjektives Medium in dem Ausdruck von Emotionen. So gibt es zum Beispiel viel Musikstücke, welche man als "happy" klassifizieren könnte, welche sich aber vom Klang und Verlauf des Musikstücks nicht ähnlich zu einander sind, was die Merkmalerkennung zusätzlich erschwert.
 
-Die Embedding Suche von Musikstücken durch Cosine-Similarity funktioniert in tests wie erwartet. Jedoch konnten noch keine Echtdatentests mit Embeddings durchgeführt werden, da wie vorher schon erwähnt das Musikemotionsklassifikationsmodell keinen gebrauchbaren Trainingsstandt erreicht hat.
-
-
-## Reflexion
+Die Embedding Suche von Musikstücken durch Cosine-Similarity funktioniert in tests wie erwartet. Jedoch konnten noch keine Echtdatentests mit Embeddings durchgeführt werden, da wie das Musikemotionsklassifikationsmodell keinen verwendbaren Trainingsstand erreicht hat.
 
 
 ## Literaturverzeichnis (APA7)
