@@ -102,7 +102,11 @@ Die erste lädt Bilddaten aus einem angegebenen Verzeichnis, konvertiert sie in 
 Die zweite Funktion definiert das verwendete CNN für das Training.
 Dabei werden zunächst die Pixelwerte umdimensioniert und anschließend durch mehrere Convolutional- und Pooling-Schichten gegeben, ergänzt um Dropout-Layers für die Verringerung der Overfitting-Wahrscheinlichkeit.
 In diesen Schichten werden die räumlichen Merkmale des Bildes extrahiert.
-Um den Output dieser Schichten für die darauffolgende Klassifikation vorzubereiten, wird daran ein Flattenlayer 
+Um den Output dieser Schichten für die darauffolgende Klassifikation vorzubereiten, wird daran ein Flatten-Layer angebunden.
+Diesem folgen drei vollständig verbundene Dense-Layer mit abnehmender Neuronenzahl für die Klassifikation der zuvor extrahierten Merkmale, was in einer Softmax-Ausgabe mit den sieben klassifizierten Emotionsklassen resultiert.
+Diesen Funktionen folgt die Durchführung des Trainings.
+Dazu werden zunächst Trainings- und Test-Datensatz aus den angegebenen Verzeichnissen geladen
+
 
 #### Musikdaten-Aufbereitung
 Die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` wurden in `Music_preprocessor.py` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation wurden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
