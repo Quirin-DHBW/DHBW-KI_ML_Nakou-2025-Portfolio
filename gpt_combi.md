@@ -15,13 +15,17 @@ Die Entwicklung einer solchen Endnutzer-Anwendung ist jedoch nicht Teil des Proj
 ## Theorie
 
 ### Convolutional Neural Network
-Ähnlich wie Multilayer Perceptrons basieren Convolutional Neural Networks, im folgenden CNN genannt, lose auf der menschlichen Wahrnehmung, indem sie mithilfe von "Filtern" auf einem Bild zunächst kleinere, grobe Merkmale erkennen und anschließend auf diesen basierende, größere Merkmale erfassen können. Diese Filter sind im Wesentlichen ein über das Bild gleitendes Fenster, das nach bestimmten Mustern sucht und ausgibt, wie stark dieses Muster vorhanden ist oder nicht. Die resultierende Karte mit Musterstärken kann dann an die folgende CNN-Schicht weitergegeben werden, um größere zusammenhängende Muster zu erkennen. Oft werden dabei viele Filter auf einmal verwendet, da jeder Filter jeweils nur ein Merkmal suchen kann.
-Mathematisch entspricht dieser Prozess der Funktionsfaltung, da die Daten nach bestimmten Regeln über sich selbst "gefaltet" werden, was zu einer kleineren Ausgabe führt, wobei die Informationsdichte jedoch gleich bleibt, ?????????????? beispiel seltsam formuliert ??????????? z.B. (8 x 8 x 1) -> (4 x 4 x 4) bei 4 Filtern.
+Ähnlich wie Multilayer Perceptrons basieren Convolutional Neural Networks, im folgenden CNN genannt, lose auf der menschlichen Wahrnehmung, indem sie mithilfe von "Filtern" auf einem Bild zunächst kleinere, grobe Merkmale erkennen und anschließend auf diesen basierende, größere Merkmale erfassen können. Diese Filter sind im Wesentlichen ein über das Bild gleitendes Fenster, das nach bestimmten Mustern sucht und ausgibt, wie stark dieses Muster vorhanden ist oder nicht. Die resultierende Karte mit Musterstärken kann dann an die folgende CNN-Schicht weitergegeben werden, um größere zusammenhängende Muster zu erkennen. Oft werden dabei viele Filter auf einmal verwendet, da jeder Filter jeweils nur ein Merkmal suchen kann. Die größe der Filter kann auch angepasst werden, und dieß wird oft der "Kernel" genannt.
+Mathematisch entspricht dieser Prozess der Funktionsfaltung, da die Daten nach bestimmten Regeln über sich selbst "gefaltet" werden, was zu einer kleineren Ausgabe führt. Die Informationsdichte im Bild ändert sich jedoch basierend auf der Anzahl der Filter. Genauso wie in einem RGB Bild die Merkmale "Rot", "Grün", "Blau" in drei Schichten erfasst werden, werden die resultierenden Merkmale die von den Filtern erkannt werden ebenso in Schichten erfasst. Dadurch kann sich die Datenmenge oft Stark erhöhen, wobei das Bild von der Kernel größe abhängig gequetscht wird.  Als beispiel nehmen wir ein 8x8 Pixel Graustufen Bild, welches die Dimension (8 x 8 x 1) hat. Jetzt werden 4 Filter mit jeweils Kernel größe (2x2) auf dieses Bild angewandt. Das resultierende Bild hat jetzt die Dimension (7 x 7 x 4), also 4 Merkmalkanäle, aber nurnoch 7x7 Pixel tatsächliche Bildbreite. (3Blue1Brown, 2022)
 
-??????????????? Bild aus präsi für anschaulichkeit? und dann einmal erklären ?????????????????
+![Beispieldarstellung eines Convolution Durchlaufs](img/Convolution_Beispiel.png)
+Beispieldarstellung eines Convolution Durchlaufs, Eigendarstellung
 
 ### Maxpooling
 Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird.
+
+![Beispieldarstellung eines Maxpooling Durchlaufs](img/Beispiel_Maxpooling.png)
+Beispieldarstellung eines Maxpooling Durchlaufs, Eigendarstellung
 
 ### Dropout
 Dropout deaktiviert während des Trainings zufällig Neuronen, beziehungsweise Outputs, in einem Netzwerk und skaliert die Ausgaben so, dass sie immer noch korrekt zurückpropagiert werden können. Das Modell muss dadurch lernen, sein Wissen breiter im Netzwerk zu verteilen und sich nicht auf nur eine kleine Anzahl von Neuronen zu verlassen. Die Trainingsdauer wird dadurch zwar oft erhöht, da das Modell jetzt einem weiteren Faktor entgegenwirken muss, jedoch sorgt dies auch für ein insgesammt besser angepasstes Modell. Dies ist eine Regularisierungsmethode, die Überanpassung (englisch: Overfitting) reduziert und das Modell dazu zwingt, relevantere Merkmale zu lernen, die auf mehr Neuronen verteilt werden.
@@ -32,8 +36,11 @@ Dadurch wird es möglich, die Frequenzanteile in einem Diagramm gegen die zeitli
 Um die Darstellung einheitlicher zu gestalten, wird statt der Fourier-Transformierten, in der die Signalamplitude periodisch das Vorzeichen wechselt, in der Regel das Betragsquadrats der Fourier-Transformierten Funktion aufgetragen, welche auf diese Weise die frequenz- und zeitabhängige, immer positive Signalintensität in einem dreidimensionalen Diagramm darstellt.
 Dieses kann zum Beispiel in Form einer Heat-Map als Bild gespeichert werden, wie es auch von den meisten Spektrogramm-erzeugenden Algorithmen umgesetzt wird.
 
+### Embeddings
+abc
+
 ### Cosine Similarity
-??????????????? hast du ja schonmal was geschrieben für die präsi, warum nicht nochmal ?????????????????
+def
 
 ## Umsetzung
 
