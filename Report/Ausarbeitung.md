@@ -40,7 +40,7 @@ Dieses kann zum Beispiel in Form einer Heat-Map als Bild gespeichert werden, wie
 Ein Embedding bezeichnet einen Vektor von größe n welcher Merkmale festhält. Diese sind oft sehr groß, und die Merkmale die von ihnen erfasst werden, werden von einem dazugehörigen Modell normalerweise selbst gelernt. Solche embeddings sind sehr gut darin Komplexe dinge numerisch, und vor allem für Maschinelles Lernen einfach verwendbar, darzustellen, weshalbt Embeddings in vielen Anwendungsbereichen zu finden sind, wie z.B. Large Language Modells.
 
 ### Cosine-Similarity
-Cosine-Similarity ist eine Methode zum Vergleichen der Ähnlichkeit zwischen zwei Vektoren. Diese bestimmte Vektorenvergleichsmethode hat sich besonders im Feld der Embeddingsuche etabliert, und ist in vielen Vektordatenbanken die Standarteinstellung.
+Cosine-Similarity ist eine Methode zum Vergleichen der Ähnlichkeit zwischen zwei Vektoren. Diese bestimmte Vektorenvergleichsmethode hat sich besonders im Feld der Embeddingsuche etabliert, und ist in vielen Vektordatenbanken als eine Standarteinstellung verfügbar (ChromaDB, Pinecone, und mehr).
 
 ## Umsetzung
 
