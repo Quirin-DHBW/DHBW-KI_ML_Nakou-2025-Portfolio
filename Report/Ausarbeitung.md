@@ -66,6 +66,8 @@ Die Verzeichnisstruktur von VibeluX setzt sich folgendermaßen zusammen:
 
 **main.py**: Das Hauptskript zur Durchführung des gesamten Prozesses der Gesichtsklassifikation, und anschließenden Embeddingsuche nach einem passenden Musikstück.
 
+ALLE WEITEREN MÜSSEN ENTWEDER NOCH GENANNT ODER GELÖSCHT/SORTIERT WERDEN
+
 ### Datensammlung
 Im ersten Schritt wurde eruiert, welche Daten für die Umsetzung einer Emotionszuordung zu Gesichtern und Musikstücken nötig sind.
 Dabei ergab sich, dass für die Gesichtsdaten ein Datensatz benötigt wird, in dem frontal aufgenommene Nahaufnahmen von Gesichtern enthalten sind, vorklassifiziert nach den jeweilig dargestellten Gesichtsemotionen.
@@ -172,7 +174,7 @@ def process_directory(directory_path:str, output_directory:str) -> None:
         audio_to_spectrogram(audio_file, f"{output_directory}/{pathlib.Path(audio_file).stem}.png")
 ```
 
-Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem (Costa et al., 2016).
+Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
 
 #### Musik-Klassifikations-Training
 `Train_music_emotion_classifier.py` trainiert ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen. Im Vergleich zu dem Gesichts-Emotions-Klassifikations-Modell ist das Musik-Emotions-Klassifikations-Modell beinahe identisch, denn nur die Anzahl an CNN Layers sowie die Filteranzahl und Kernelgröße wurden erhöht, um der Bildgröße der Spektrogramme nachzukommen. Dazu wurden auch die Inputgrößen von `create_dataset()` und `create_model()` and die der Spektrogramme angepasst.
