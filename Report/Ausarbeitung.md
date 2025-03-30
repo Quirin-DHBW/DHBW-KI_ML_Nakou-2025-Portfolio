@@ -19,13 +19,13 @@ Die Entwicklung einer solchen Endnutzer-Anwendung ist jedoch nicht Teil des Proj
 Mathematisch entspricht dieser Prozess der Funktionsfaltung, da die Daten nach bestimmten Regeln über sich selbst "gefaltet" werden, was zu einer kleineren Ausgabe führt. Die Informationsdichte im Bild ändert sich jedoch basierend auf der Anzahl der Filter. Genauso wie in einem RGB Bild die Merkmale "Rot", "Grün", "Blau" in drei Schichten erfasst werden, werden die resultierenden Merkmale die von den Filtern erkannt werden ebenso in Schichten erfasst. Dadurch kann sich die Datenmenge oft Stark erhöhen, wobei das Bild von der Kernel größe abhängig gequetscht wird.  Als beispiel nehmen wir ein 8x8 Pixel Graustufen Bild, welches die Dimension (8 x 8 x 1) hat. Jetzt werden 4 Filter mit jeweils Kernel größe (2x2) auf dieses Bild angewandt. Das resultierende Bild hat jetzt die Dimension (7 x 7 x 4), also 4 Merkmalkanäle, aber nurnoch 7x7 Pixel tatsächliche Bildbreite. (3Blue1Brown, 2022)
 
 ![Beispieldarstellung eines Convolution Durchlaufs](../img/Convolution_Beispiel.png)
-Beispieldarstellung eines Convolution Durchlaufs, Eigendarstellung
+Abbildung 1: Beispieldarstellung eines Convolution Durchlaufs, Eigendarstellung
 
 ### Maxpooling
 Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in nicht-überlappende Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird.
 
 ![Beispieldarstellung eines Maxpooling Durchlaufs](../img/Beispiel_Maxpooling.png)
-Beispieldarstellung eines Maxpooling Durchlaufs, Eigendarstellung
+Abbildung 2: Beispieldarstellung eines Maxpooling Durchlaufs, Eigendarstellung
 
 ### Dropout
 Dropout deaktiviert während des Trainings zufällig Neuronen, beziehungsweise Outputs, in einem Netzwerk und skaliert die Ausgaben so, dass sie immer noch korrekt zurückpropagiert werden können. Das Modell muss dadurch lernen, sein Wissen breiter im Netzwerk zu verteilen und sich nicht auf nur eine kleine Anzahl von Neuronen zu verlassen. Die Trainingsdauer wird dadurch zwar oft erhöht, da das Modell jetzt einem weiteren Faktor entgegenwirken muss, jedoch sorgt dies auch für ein insgesammt besser angepasstes Modell. Dies ist eine Regularisierungsmethode, die Überanpassung (englisch: Overfitting) reduziert und das Modell dazu zwingt, relevantere Merkmale zu lernen, die auf mehr Neuronen verteilt werden.
@@ -177,11 +177,11 @@ In diesem werden zunächst alle erforderlichen Bibliotheken importiert, sowie ei
 Mithilfe dieses Vektors wird durch Cosine-Similarity jetzt in der `song_embeddings.json` Datei nach einem Best-Passendem Musikstück gesucht.
 
 ## Ergebnisse und Diskussion
-Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in Abbildung 1 zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auf mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann, wie in Abbildung 2 zu sehen ist. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
+Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in Abbildung 3 zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auf mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann, wie in Abbildung 4 zu sehen ist. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
 ![Curves showing loss and accuracy over the course of training.](../img/Training_Curves.png)
-Abbildung 1: Accuracy- und Loss-Verlauf über die trainierten Epochen. 
+Abbildung 3: Accuracy- und Loss-Verlauf über die trainierten Epochen. 
 ![Confusion matrix for the Face Classifier.](../img/Confusion_Matrix.png)
-Abbildung 2: Confusion Matrix des Gesichtsklassifikations-Modells, die Label 0-6 entsprechen: [angry, disgusted, fearful, happy, neutral, sad, surprised]
+Abbildung 4: Confusion Matrix des Gesichtsklassifikations-Modells, die Label 0-6 entsprechen: [angry, disgusted, fearful, happy, neutral, sad, surprised]
 
 Die Musikemotionsklassifikation in der bisher umgesetzten Form ist allerdings nicht für die gedachte Anwendung geeignet. Der Loss-Wert nähert sich beim Training an 1.94 an, und die Accuracy an 0.14. Eine Accuracy von grob 0.14 entspricht jedoch dem Erwartungswert eines gleichverteilten Zufallsexperiments mit 7 Ereignissen von 1/7 und damit effektiv dem Zufall. Die schlechte Performance des Modells lässt sich sehr einfach auf den Mangel an Trainingsdaten zurückführen, da die in einem Spektrogramm enthaltene Informationsdichte sehr hoch ist, wodurch die Größe des erhobenen Datensatzes für das Modell nicht ausreicht, um Kernmerkmale erlernen zu können. Außerdem ist Musik ein sehr vielseitiges und subjektives Medium in dem Ausdruck von Emotionen. So gibt es zum Beispiel viel Musikstücke, welche man als "happy" klassifizieren könnte, welche sich aber vom Klang und Verlauf des Musikstücks nicht ähnlich zu einander sind, was die Merkmalerkennung zusätzlich erschwert.
 
