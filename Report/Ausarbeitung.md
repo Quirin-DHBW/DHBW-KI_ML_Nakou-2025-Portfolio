@@ -40,7 +40,7 @@ Dieses kann zum Beispiel in Form einer Heat-Map als Bild gespeichert werden, wie
 Ein Embedding bezeichnet einen Vektor von größe n welcher Merkmale festhält. Diese sind oft sehr groß, und die Merkmale die von ihnen erfasst werden, werden von einem dazugehörigen Modell normalerweise selbst gelernt. Solche embeddings sind sehr gut darin Komplexe dinge numerisch, und vor allem für Maschinelles Lernen einfach verwendbar, darzustellen, weshalbt Embeddings in vielen Anwendungsbereichen zu finden sind, wie z.B. Large Language Modells.
 
 ### Cosine-Similarity
-Cosine-Similarity ist eine Methode zum Vergleichen der Ähnlichkeit zwischen zwei Vektoren. Diese bestimmte Vektorenvergleichsmethode hat sich besonders im Feld der Embeddingsuche etabliert, und ist in vielen Vektordatenbanken als eine Standardeinstellung verfügbar wie zum Beispiel ChromaDB und Pinecone.
+Cosine-Similarity ist eine Methode zum Vergleichen der Ähnlichkeit zwischen zwei Vektoren. Diese bestimmte Vektorenvergleichsmethode hat sich besonders im Feld der Embeddingsuche etabliert, und ist in vielen Vektordatenbanken als eine Standardeinstellung verfügbar wie zum Beispiel ChromaDB und Pinecone (Configure - Chroma Docs, o. D.).
 
 ## Umsetzung
 
@@ -286,6 +286,8 @@ Dieser Schritt wird jedoch vermutlich noch weit entfernt sein, da lizenzfreie un
 Zafar, A., Aamir, M., Nawi, N. M., Arshad, A., Riaz, S., Alruban, A., Dutta, A. K. & Almotairi, S. (2022). A Comparison of Pooling Methods for Convolutional Neural Networks. Applied Sciences, 12(17), 8643. https://doi.org/10.3390/app12178643
 
 Halliday, D., Resnick, R. & Walker, J. (2003). Physik. Wiley-VCH.
+
+Configure - Chroma Docs. (o. D.). https://docs.trychroma.com/docs/collections/configure
 
 Emotion detection. (2020, 11. Dezember). Kaggle. https://www.kaggle.com/datasets/ananthu017/emotion-detection-fer/data
 
