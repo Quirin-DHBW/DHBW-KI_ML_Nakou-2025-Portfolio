@@ -121,6 +121,11 @@ Die Musikemotionsklassifikation in der bisher umgesetzten Form ist allerdings ni
 
 Die Embedding Suche von Musikstücken durch Cosine-Similarity funktioniert in Tests wie erwartet. Jedoch konnten noch keine Echtdatentests mit Embeddings durchgeführt werden, da das Musikemotionsklassifikationsmodell keinen verwendbaren Trainingsstand erreichte.
 
+## Reflexion und Ausblick
+Für eine Weiterführung des Projektes und die endgültige Beantwortung der anfangs gestellten Leitfrage muss in jedem Fall der Datensatz für die Musikklassifikation stark erweitert werden.
+Dabei können leider auch keine anderen der Standard-Methoden für die Vervielfältigung von Datensätzen wie Rotation, Spiegelung, oder Mutation der schon vorhandenen Daten zu Rate gezogen werden, da die Spektrogramme durch ihre Informationsdichte extrem empfindlich auf jegliche Manipulation reagieren und somit essenzielle Merkmale verloren gehen würden.
+
+Da alle sonstigen Grundfunktionen im Projekt umgesetzt werden konnten, könnte mit einer 
 
 ## Literaturverzeichnis (APA7)
 Halliday, D., Resnick, R. & Walker, J. (2003). Physik. Wiley-VCH.
