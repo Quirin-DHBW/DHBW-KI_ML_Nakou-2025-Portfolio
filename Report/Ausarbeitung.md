@@ -279,7 +279,7 @@ Dabei können leider auch keine anderen der Standard-Methoden für die Vervielf�
 Da alle sonstigen Grundfunktionen im Projekt umgesetzt werden konnten, könnte mit mehr Daten ein erfolgreiches Training des Musik-Emotions-Klassifikations-Modells durchgeführt werden, und von dem Proof-of-Concept direkt zu einer In-App-Lösung übergegangen werden.
 Dieser Schritt wird jedoch vermutlich noch weit entfernt sein, da lizenzfreie und für diese Anwendung vorgetaggte Musikstücke in großer Menge schwer zu finden sind.
 
-## Literaturverzeichnis (APA7)
+## Literaturverzeichnis
 
 3Blue1Brown. (2022, 18. November). But what is a convolution? [Video]. YouTube. https://www.youtube.com/watch?v=KuXjwB4LzSA
 
