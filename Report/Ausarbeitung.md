@@ -276,7 +276,7 @@ Die Embedding Suche von Musikstücken durch Cosine-Similarity funktioniert in Te
 Für eine Weiterführung des Projektes und die endgültige Beantwortung der anfangs gestellten Leitfrage muss in jedem Fall der Datensatz für die Musikklassifikation stark erweitert werden.
 Dabei können leider auch keine anderen der Standard-Methoden für die Vervielfältigung von Datensätzen wie Rotation, Spiegelung, oder Mutation der schon vorhandenen Daten zu Rate gezogen werden, da die Spektrogramme durch ihre Informationsdichte extrem empfindlich auf jegliche Manipulation reagieren und somit essenzielle Merkmale verloren gehen würden.
 
-Da alle sonstigen Grundfunktionen im Projekt umgesetzt werden konnten, könnte mit einem erfolgreich durchgeführten Musik-Emotions-Klassifikations-Training von dem Proof-of-Concept direkt zu einer In-App-Lösung übergegangen werden.
+Da alle sonstigen Grundfunktionen im Projekt umgesetzt werden konnten, könnte mit mehr Daten ein erfolgreiches Training des Musik-Emotions-Klassifikations-Modells durchgeführt werden, und von dem Proof-of-Concept direkt zu einer In-App-Lösung übergegangen werden.
 Dieser Schritt wird jedoch vermutlich noch weit entfernt sein, da lizenzfreie und für diese Anwendung vorgetaggte Musikstücke in großer Menge schwer zu finden sind.
 
 ## Literaturverzeichnis (APA7)
