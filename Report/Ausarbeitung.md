@@ -88,7 +88,7 @@ Der Kaggle-Datensatz enthält 48x48 Pixel große Graustufen-Bilder, welche auf d
 |sad|16.8%|
 |surprised|11%|
 
-Tabelle mit den prozentualen Anteilen der einzelnen Emotionsklassen in Trainingsdatensatz.
+##### Tabelle 1: Prozentualen Anteilen der einzelnen Emotionsklassen in Trainingsdatensatz.
 
 Wie hier zu sehen ist, hat die Emotionsklasse "happy" mit über 25% bei weitem die meisten Trainingsdaten. "disgusted" nimmt wiederum nur 1.5% des Trainningsdatensatzes ein, wodurch es wahrscheinlich weitaus schlechter erkannt werden wird.
 
