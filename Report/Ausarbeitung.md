@@ -149,7 +149,8 @@ Um den Output dieser Schichten für die darauffolgende Klassifikation vorzuberei
 Diesem folgen drei vollständig verbundene Dense-Layer mit abnehmender Neuronenzahl für die Klassifikation der zuvor extrahierten Merkmale, was in einer Softmax-Ausgabe mit den sieben klassifizierten Emotionsklassen resultiert.
 Diesen Funktionen folgt die Durchführung des Trainings.
 Dazu werden zunächst Trainings- und Test-Datensatz aus den angegebenen Verzeichnissen geladen.
-Anschließend 
+Anschließend wird das neuronale Netzwerk mit vier Convolutional-Layers unterschiedlicher Filtergröße initialisiert, um mehr verschiedene Merkmale aus den Bildern zu extrahieren.
+Für den Fall, dass sich der Validations-Loss-Wert durch das Training nicht genügend verbessert, wird ein frühzeitiger Abbruchsmechanismus definiert und anschließend wird das Model für 100 Epochen trainiert.
 
 
 #### Musikdaten-Aufbereitung
