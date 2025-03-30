@@ -95,7 +95,14 @@ Wie hier zu sehen ist, hat die Emotionsklasse "happy" mit über 25% bei weitem d
 ### Modelltraining
 
 #### Gesichts-Klassifikations-Training
- `Train_face_emotion_classifier.py` verwendet, um ein CNN-Modell für die Gesichtsemotionserkennung zu trainieren.
+Für das Aufstellen und Trainieren eines CNN-Modells zur Emotionszuordnung zu Gesichtern wurde `Train_face_emotion_classifier.py` erstellt.
+Zunächst werden die erforderlichen Bibliotheken importiert, darunter `TensorFlow` und `Keras` für das neuronale Netzwerk, `NumPy` für numerische Berechnungen sowie `Matplotlib` für die spätere Visualisierung der Trainingsergebnisse.
+Anschließend werden die zwei Grundfunktionen des Programms, `create_dataset` und `create_model` definiert.
+Die erste lädt Bilddaten aus einem angegebenen Verzeichnis, konvertiert sie in Graustufen-Bilder mit einer Größe von 48x48 Pixeln und gibt ein in Batches unterteiltes Tensorflow-Dataset zurück, das für die Bearbeitung von großen Bildmengen optimiert ist.
+Die zweite Funktion definiert das verwendete CNN für das Training.
+Dabei werden zunächst die Pixelwerte umdimensioniert und anschließend durch mehrere Convolutional- und Pooling-Schichten gegeben, ergänzt um Dropout-Layers für die Verringerung der Overfitting-Wahrscheinlichkeit.
+In diesen Schichten werden die räumlichen Merkmale des Bildes extrahiert.
+Um den Output dieser Schichten für die darauffolgende Klassifikation vorzubereiten, wird daran ein Flattenlayer 
 
 #### Musikdaten-Aufbereitung
 Die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` wurden in `Music_preprocessor.py` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation wurden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
@@ -106,8 +113,7 @@ Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Method
 
 ### Main-Programmausführung
 Anschließend wurde das `main.py` Skript erstellt, in dem die endgültige Programmausführung stattfindet.
-In diesem werden zunächst alle erforderlichen Bibliotheken importiert, darunter `os` und `sys` für die System-Pfaderkennung, `cv2` für die Bildbearbeitung, `tensorflow`und `keras`für das Aufstellen der KI-Modelle, 
-`numpy` für die Bereitstellung von auf Berechnungen spezialisierte Datentypen, `json` für das Auslesen von JSON-Dateien und `matplotlib.pyplot` für die Visualisierung.
+In diesem werden zunächst alle erforderlichen Bibliotheken importiert, 
 
 #### face_emotion_classifier.h5
 Das CNN-Modell `face_emotion_classifier.h5` ermittelt die Emotion des Gesichts.
