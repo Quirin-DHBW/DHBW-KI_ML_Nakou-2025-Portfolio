@@ -98,6 +98,49 @@ Wie hier zu sehen ist, hat die Emotionsklasse "happy" mit über 25% bei weitem d
 Für das Aufstellen und Trainieren eines CNN-Modells zur Emotionszuordnung zu Gesichtern wurde `Train_face_emotion_classifier.py` erstellt.
 Zunächst werden die erforderlichen Bibliotheken importiert, darunter `TensorFlow` und `Keras` für das neuronale Netzwerk, `NumPy` für numerische Berechnungen sowie `Matplotlib` für die spätere Visualisierung der Trainingsergebnisse.
 Anschließend werden die zwei Grundfunktionen des Programms, `create_dataset` und `create_model` definiert.
+
+```python
+def create_dataset(directory, batch_size=64, image_size=(48, 48)):
+    return k.preprocessing.image_dataset_from_directory(
+        directory,
+        image_size=image_size,
+        batch_size=batch_size,
+        color_mode="grayscale",
+        label_mode="int"
+    )
+
+
+def create_model(conv_layers, dropout=0.25, input_size=(48, 48, 1)):
+    """
+    Create a Convolutional network :)
+    """
+    model = k.Sequential()
+    model.add(k.Input(input_size))
+    # Normalize pixels
+    model.add(k.layers.Rescaling(1./255))
+    
+    for filters, kernel_size in conv_layers:
+        model.add(k.layers.Conv2D(filters, kernel_size, activation='relu', padding='same'))
+        model.add(k.layers.MaxPooling2D((2, 2), padding="same"))
+        model.add(k.layers.Dropout(dropout))
+    
+    model.add(k.layers.Flatten())
+
+    model.add(k.layers.Dense(128, activation='leaky_relu'))
+    model.add(k.layers.Dropout(dropout))
+
+    model.add(k.layers.Dense(64, activation='leaky_relu'))
+    model.add(k.layers.Dropout(dropout))
+
+    model.add(k.layers.Dense(7, activation='softmax'))
+
+    model.compile(optimizer='adamw',
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
+    
+    return model
+```
+
 Die erste lädt Bilddaten aus einem angegebenen Verzeichnis, konvertiert sie in Graustufen-Bilder mit einer Größe von 48x48 Pixeln und gibt ein in Batches unterteiltes Tensorflow-Dataset zurück, das für die Bearbeitung von großen Bildmengen optimiert ist.
 Die zweite Funktion definiert das verwendete CNN für das Training.
 Dabei werden zunächst die Pixelwerte umdimensioniert und anschließend durch mehrere Convolutional- und Pooling-Schichten gegeben, ergänzt um Dropout-Layers für die Verringerung der Overfitting-Wahrscheinlichkeit.
