@@ -148,7 +148,8 @@ In diesen Schichten werden die räumlichen Merkmale des Bildes extrahiert.
 Um den Output dieser Schichten für die darauffolgende Klassifikation vorzubereiten, wird daran ein Flatten-Layer angebunden.
 Diesem folgen drei vollständig verbundene Dense-Layer mit abnehmender Neuronenzahl für die Klassifikation der zuvor extrahierten Merkmale, was in einer Softmax-Ausgabe mit den sieben klassifizierten Emotionsklassen resultiert.
 Diesen Funktionen folgt die Durchführung des Trainings.
-Dazu werden zunächst Trainings- und Test-Datensatz aus den angegebenen Verzeichnissen geladen
+Dazu werden zunächst Trainings- und Test-Datensatz aus den angegebenen Verzeichnissen geladen.
+Anschließend 
 
 
 #### Musikdaten-Aufbereitung
