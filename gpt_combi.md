@@ -22,7 +22,7 @@ Mathematisch entspricht dieser Prozess der Funktionsfaltung, da die Daten nach b
 Beispieldarstellung eines Convolution Durchlaufs, Eigendarstellung
 
 ### Maxpooling
-Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird.
+Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in nicht-überlappende Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird.
 
 ![Beispieldarstellung eines Maxpooling Durchlaufs](img/Beispiel_Maxpooling.png)
 Beispieldarstellung eines Maxpooling Durchlaufs, Eigendarstellung
@@ -37,10 +37,10 @@ Um die Darstellung einheitlicher zu gestalten, wird statt der Fourier-Transformi
 Dieses kann zum Beispiel in Form einer Heat-Map als Bild gespeichert werden, wie es auch von den meisten Spektrogramm-erzeugenden Algorithmen umgesetzt wird.
 
 ### Embeddings
-abc
+Ein Embedding bezeichnet einen Vektor von größe n welcher Merkmale festhält. Diese sind oft sehr groß, und die Merkmale die von ihnen erfasst werden, werden von einem dazugehörigen Modell normalerweise selbst gelernt. Solche embeddings sind sehr gut darin Komplexe dinge numerisch, und vor allem für Maschinelles Lernen einfach verwendbar, darzustellen, weshalbt Embeddings in vielen Anwendungsbereichen zu finden sind, wie z.B. Large Language Modells.
 
-### Cosine Similarity
-def
+### Cosine-Similarity
+Cosine-Similarity ist eine Methode zum Vergleichen der Ähnlichkeit zwischen zwei Vektoren. Diese bestimmte Vektorenvergleichsmethode hat sich besonders im Feld der Embeddingsuche etabliert, und ist in vielen Vektordatenbanken die Standarteinstellung.
 
 ## Umsetzung
 
@@ -58,9 +58,9 @@ Die Verzeichnisstruktur von VibeluX setzt sich folgendermaßen zusammen:
   - `Train_face_emotion_classifier.py`: Ein Skript für das Training eines neuronalen Netzwerks zur Gesichtsemotionserkennung.
   - `Train_music_emotion_classifier.py`: Ein Skript für das Training eines neuronalen Netzwerks zur Musik-Emotions-Zuordnung.
 
-**Songs**: was ist hier drin? ???????????????????????????????????
-
 **generate_song_embeddings.py**: Erstellt eine JSON-Datei, die den Songdateinamen den durch ein CNN generierten Emotionen zuordnet.
+
+**Songs**: Die Musikstücke welche von `generate_song_embeddings.py` Embedded werden, und daraufhin in `main.py` als findbare Musikstücke auftauchen.
 
 **webcam_face_recognition.py**: Ein Skript für die Einbindung der Kamera des VibluX ausführenden Gerätes inklusive Gesichtserkennung und Bildformat-Normierung mittels OpenCV und der dazugehörenden Python anbindung durch das `cv2`-Moduls.
 
@@ -78,7 +78,7 @@ Daraufhin wurden die Musikdateien für das Training des Musik-Emotions-zuordnend
 ### Gesichts-Klassifikations-Datensatz
 Der Kaggle-Datensatz enthält 48x48 Pixel große Graustufen-Bilder, welche auf das zu erkennende Gesicht in Nahaufnahme zugeschnitten sind. Der Datensatz ist aufgeteilt in einen Trainingsdatensatz mit insgesamt 28709 Bildern und einen Validierungsdatensatz mit 7178 Bildern. Die Bilder sind nicht gleichmäßig über die sieben Emotionsklassen verteilt, also haben manche Emotionsklassen mehr Trainingsdaten als andere. In der folgenden Tabelle sind die prozentualen Anteile der einzelnen Emotionsklassen im Datensatz angegeben:
 
-|Emotionsklasse|Prozent v. Desamtdatensatz|
+|Emotionsklasse|Prozent v. Trainingsdatensatz|
 |-:|:-|
 |angry|13.9%|
 |disgusted|1.5%|
@@ -88,7 +88,7 @@ Der Kaggle-Datensatz enthält 48x48 Pixel große Graustufen-Bilder, welche auf d
 |sad|16.8%|
 |surprised|11%|
 
-???????????????? tabellenverzeichnis und/oder tabellenmbeschreibungen (und für abbildungen ebenfalls) ja nein??????????????????
+Tabelle mit den prozentualen Anteilen der einzelnen Emotionsklassen in Trainingsdatensatz.
 
 Wie hier zu sehen ist, hat die Emotionsklasse "happy" mit über 25% bei weitem die meisten Trainingsdaten. "disgusted" nimmt wiederum nur 1.5% des Trainningsdatensatzes ein, wodurch es wahrscheinlich weitaus schlechter erkannt werden wird.
 
@@ -123,12 +123,11 @@ Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musi
 
 
 ## Ergebnisse und Diskussion
-Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in Abbildung 1 zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auf mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
+Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in Abbildung 1 zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auf mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann, wie in Abbildung 2 zu sehen ist. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
 ![Curves showing loss and accuracy over the course of training.](img/Training_Curves.png)
 Abbildung 1: Accuracy- und Loss-Verlauf über die trainierten Epochen. 
 ![Confusion matrix for the Face Classifier.](img/Confusion_Matrix.png)
-Abbildung 2: Confusion Matrix des Gesichtsklassifikations-Modells 
-???????????????? muss angesprochen werden im Text ?????????????????
+Abbildung 2: Confusion Matrix des Gesichtsklassifikations-Modells, die Label 0-6 entsprechen: [angry, disgusted, fearful, happy, neutral, sad, surprised]
 
 Die Musikemotionsklassifikation in der bisher umgesetzten Form ist allerdings nicht für die gedachte Anwendung geeignet. Der Loss-Wert nähert sich beim Training an 1.94 an, und die Accuracy an 0.14. Eine Accuracy von grob 0.14 entspricht jedoch dem Erwartungswert eines gleichverteilten Zufallsexperiments mit 7 Ereignissen von 1/7 und damit effektiv dem Zufall. Die schlechte Performance des Modells lässt sich sehr einfach auf den Mangel an Trainingsdaten zurückführen, da die in einem Spektrogramm enthaltene Informationsdichte sehr hoch ist, wodurch die Größe des erhobenen Datensatzes für das Modell nicht ausreicht, um Kernmerkmale erlernen zu können. Außerdem ist Musik ein sehr vielseitiges und subjektives Medium in dem Ausdruck von Emotionen. So gibt es zum Beispiel viel Musikstücke, welche man als "happy" klassifizieren könnte, welche sich aber vom Klang und Verlauf des Musikstücks nicht ähnlich zu einander sind, was die Merkmalerkennung zusätzlich erschwert.
 
