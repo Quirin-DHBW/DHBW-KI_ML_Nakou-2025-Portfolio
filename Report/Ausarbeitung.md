@@ -246,8 +246,8 @@ Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit 
 
 ### Main-Programmausführung
 Anschließend wurde das `main.py` Skript erstellt, in dem die endgültige Programmausführung stattfindet.
-In diesem werden zunächst alle erforderlichen Bibliotheken importiert, sowie eine Hilfsfunktion aus `webcam_face_recognition.py` zum Erfassen eines Gesichts. Anschließend wird zuerst das Gesichtsemotionsklassifikationsmodell geladen, und anschließend ein Bild über die Webcam des Benutzers aufgenommen. Dieses Bild wird darauf folgend mithilfe des Gesichtsemotionsklassifikationsmodells zu einem Emotionsvektor umgewandelt.
-Mithilfe dieses Vektors wird durch Cosine-Similarity jetzt in der `song_embeddings.json` Datei nach einem Best-Passendem Musikstück gesucht.
+In diesem werden zunächst alle erforderlichen Bibliotheken importiert, sowie eine Hilfsfunktion aus `webcam_face_recognition.py` zum Erfassen eines Gesichts. Anschließend wird zuerst das Gesichts-Emotions-Klassifikations-Modell geladen, und anschließend ein Bild über die Webcam des Benutzers aufgenommen. Dieses Bild wird daraufhin mithilfe des Gesichts-Emotions-Klassifikations-Modells zu einem Emotionsvektor umgewandelt.
+Mithilfe dieses Vektors wird durch Cosine-Similarity auf diese Weise in der `song_embeddings.json` Datei nach einem am besten passenden Musikstück gesucht.
 
 ## Ergebnisse und Diskussion
 Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in [Abbildung 3](#abbildung-3-accuracy--und-loss-verlauf-über-die-trainierten-epochen) zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auf mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann, wie in [Abbildung 4](#abbildung-4-confusion-matrix-des-gesichtsklassifikations-modells-die-label-0-6-entsprechen-angry-disgusted-fearful-happy-neutral-sad-surprised) zu sehen ist. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
