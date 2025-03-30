@@ -22,11 +22,7 @@ Mathematisch entspricht dieser Prozess der Funktionsfaltung, da die Daten nach b
 ##### Abbildung 1: Beispieldarstellung eines Convolution Durchlaufs, Eigendarstellung
 
 ### Maxpooling
-<<<<<<< HEAD
-Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in nicht-überlappende Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge in diesem Beispiel effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden wie zum Beispiel Averagepooling, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird. (Zafar, A. et. al., 2022)
-=======
 Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in nicht-überlappende Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge in diesem Beispiel effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden wie zum Beispiel Averagepooling, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird (Zafar et al., 2022).
->>>>>>> aac171ddaa1cd8825433ac80d61e9f7bc7c88b89
 
 ![Beispieldarstellung eines Maxpooling Durchlaufs](../img/Beispiel_Maxpooling.png)
 ##### Abbildung 2: Beispieldarstellung eines Maxpooling Durchlaufs, Eigendarstellung
