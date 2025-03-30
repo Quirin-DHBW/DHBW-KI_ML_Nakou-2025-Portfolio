@@ -243,6 +243,20 @@ def capture_and_save_face(visualize:bool=False, verbose:bool=False):
 ### Emotions-Embedding-Suche
 Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Musikstücke auszuwählen, haben wir stattdessen die Cosine-Similarity verwendet, um das Musikstück oder die Musikstücke zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
 
+```python
+best_song = ""
+best_score = 0
+
+with open("song_embeddings.json", "r") as embed_json:
+    song_embeddings = json.load(embed_json)
+    for song, embed in song_embeddings.items():
+        cos_sim = (np.dot(recognized_emotions[0], embed) / (np.linalg.norm(recognized_emotions[0]) * np.linalg.norm(embed)))
+        #print(song, cos_sim)
+        if cos_sim > best_score:
+            best_song = song
+            best_score = cos_sim
+```
+
 #### song_embeddings.json
 Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song später identifizieren zu können. Hierbei folgen die Einträge dem Schema eines Dictionarys, in welchem der Dateipfad der Key ist und der dazu gespeicherte Wert der jeweilige Embedding Vektor.
 
