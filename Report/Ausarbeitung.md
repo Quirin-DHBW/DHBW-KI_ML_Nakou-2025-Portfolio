@@ -183,7 +183,7 @@ Das trainierte Modell wird zu Programmende als `music_emotion_classifier.h5` ges
 ### Prozessverlauf des Prototyps
 
 #### Gesichtserkennung
-Über `webcam_face_recognition.py` wird auf die primäre Gerätekamera zugegriffen, um ein Gesicht zu erfassen. Diese wird zu einem Graustufen-Bild konvertiert, und anschließend aud die richtige Größe von 48x48 Pixel zugeschnitten, und in `zoomed_face.png` abgelegt.
+Über `webcam_face_recognition.py` wird auf die primäre Gerätekamera zugegriffen, um ein Gesicht zu erfassen. Diese wird zu einem Graustufen-Bild konvertiert, und anschließend aud die richtige Größe von 48x48 Pixel zugeschnitten, und in `zoomed_face.png` abgelegt. Dieser Prozess wird in der Funktion `caputure_and_save_face()` bereitgestellt, um in `main.py` verwendet zu werden.
 
 ```python
 def capture_and_save_face(visualize:bool=False, verbose:bool=False):
