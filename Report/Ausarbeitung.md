@@ -175,7 +175,7 @@ def process_directory(directory_path:str, output_directory:str) -> None:
 Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
 
 #### Musik-Klassifikations-Training
-`Train_music_emotion_classifier.py` trainierte ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen. Im Unterschied zu dem Gesichtsemotionsklassifikationsmodell ist das Musikemotionsklassifikationsmodell beinahe identisch, denn die Anzahl and CNN Layer, sowie die Filteranzahl und Kernelgröße wurden erhöht, um der Bildgröße der Spektrogrammen nachzukommen. Dazu wurden auch die Inputgrößen von `create_dataset()` und `create_model()` and die der Spektrogramme andgepasst.
+`Train_music_emotion_classifier.py` trainierte ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen. Im Unterschied zu dem Gesichts-Emotions-Klassifikations-Modell ist das Musik-Emotions-Klassifikations-Modell beinahe identisch, denn die Anzahl and CNN Layer, sowie die Filteranzahl und Kernelgröße wurden erhöht, um der Bildgröße der Spektrogrammen nachzukommen. Dazu wurden auch die Inputgrößen von `create_dataset()` und `create_model()` and die der Spektrogramme andgepasst.
 
 #### Webcam_face_recognition.py
 Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
