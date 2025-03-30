@@ -151,7 +151,7 @@ Diesen Funktionen folgt die Durchführung des Trainings.
 Dazu werden zunächst Trainings- und Test-Datensatz aus den angegebenen Verzeichnissen geladen.
 Anschließend wird das neuronale Netzwerk mit vier Convolutional-Layers unterschiedlicher Filtergröße initialisiert, um mehr verschiedene Merkmale aus den Bildern zu extrahieren.
 Für den Fall, dass sich der Validations-Loss-Wert durch das Training nicht genügend verbessert, wird ein frühzeitiger Abbruchsmechanismus definiert und anschließend wird das Model für 100 Epochen trainiert.
-Nach erfolgreichem Training wird die Modelleistung durch die zwei Visualisierungsfunktionen `plot_history` und `plot_confusion_matrix` analysiert. Die daraus resultierenden Visualisierungen finden sich in den Abbildungen ?????????????? und ????????????? wieder, auf die in Ergebnisse und Diskussion genauer eingegangen wird.
+Nach erfolgreichem Training wird die Modelleistung durch die zwei Visualisierungsfunktionen `plot_history` und `plot_confusion_matrix` analysiert. Die daraus resultierenden Visualisierungen finden sich in den Abbildungen [Abbildung 3](#abbildung-3-accuracy--und-loss-verlauf-über-die-trainierten-epochen) und [Abbildung 4](#abbildung-4-confusion-matrix-des-gesichtsklassifikations-modells-die-label-0-6-entsprechen-angry-disgusted-fearful-happy-neutral-sad-surprised) wieder, auf die in Ergebnisse und Diskussion genauer eingegangen wird.
 Das trainierte Modell wird schlussendlich als `face_emotion_classifier.h5` gespeichert, um es später in `main.py` verwenden zu können.
 
 #### Musikdaten-Aufbereitung
