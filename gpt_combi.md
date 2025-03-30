@@ -75,7 +75,6 @@ Ein solcher Datensatz konnte in der Online-Community Kaggle gefunden werden, in 
 Durch die Wahl dieses Datensatzes waren aufgrund seiner Struktur somit die Anzahl an erkennbaren Emotionen auf 7 festgelegt.
 Daraufhin wurden die Musikdateien für das Training des Musik-Emotions-zuordnenden Modells von der lizenzfreien Musikplattform Pixabay bezogen (Pixabay, a Canva Germany GmbH brand, o. D.). Auf dieser Seite können Musikstücke mit Tags versehen werden, nach denen getaggte Musikstücke anschließend über eine Suchfunktion identifiziert werden können. Für die Erstellung des Musikdatensatzes wurde daher nach den 7 erkennbaren Emotionen und ihren Synonymen gesucht und dabei erhaltene Suchergebnisse in den Datensatz `RAW` aufgenommen und mit der jeweils gesuchten Emotion vorklassifiziert. Es wurden für jede Emotionsklasse 80 Musikstücke herausgesucht, woraus sich eine Gesamtheit von 560 Musikstücken in dem erstellten Datensatz ergab.
 
-
 ### Gesichts-Klassifikations-Datensatz
 Der Kaggle-Datensatz enthält 48x48 Pixel große Graustufen-Bilder, welche auf das zu erkennende Gesicht in Nahaufnahme zugeschnitten sind. Der Datensatz ist aufgeteilt in einen Trainingsdatensatz mit insgesamt 28709 Bildern und einen Validierungsdatensatz mit 7178 Bildern. Die Bilder sind nicht gleichmäßig über die sieben Emotionsklassen verteilt, also haben manche Emotionsklassen mehr Trainingsdaten als andere. In der folgenden Tabelle sind die prozentualen Anteile der einzelnen Emotionsklassen im Datensatz angegeben:
 
@@ -93,28 +92,35 @@ Der Kaggle-Datensatz enthält 48x48 Pixel große Graustufen-Bilder, welche auf d
 
 Wie hier zu sehen ist, hat die Emotionsklasse "happy" mit über 25% bei weitem die meisten Trainingsdaten. "disgusted" nimmt wiederum nur 1.5% des Trainningsdatensatzes ein, wodurch es wahrscheinlich weitaus schlechter erkannt werden wird.
 
-### Musikdaten-Aufbereitung
+### Modelltraining
+
+#### Gesichts-Klassifikations-Training
+ `Train_face_emotion_classifier.py` verwendet, um ein CNN-Modell für die Gesichtsemotionserkennung zu trainieren.
+
+#### Musikdaten-Aufbereitung
 Die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` wurden in `Music_preprocessor.py` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation wurden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
 Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
 
-### Main-Programmausführung (Main muss wieder angepasst werden - ist ja noch in der präsentationsform)
-Anschließend wurde `Train_face_emotion_classifier.py` verwendet, um ein CNN-Modell für die Gesichtsemotionserkennung zu trainieren.
-#### Train_face_emotion_classifier.py
-
+#### Musik-Klassifikations-Training
 `Train_music_emotion_classifier.py` trainierte ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen.
-#### Train_music_emotion_classifier.py
 
-Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
-#### Webcam_face_recognition.py
+### Main-Programmausführung
+Anschließend wurde das `main.py` Skript erstellt, in dem die endgültige Programmausführung stattfindet.
+In diesem werden zunächst alle erforderlichen Bibliotheken importiert, darunter `os` und `sys` für die System-Pfaderkennung, `cv2` für die Bildbearbeitung, `tensorflow`und `keras`für das Aufstellen der KI-Modelle, 
+`numpy` für die Bereitstellung von auf Berechnungen spezialisierte Datentypen, `json` für das Auslesen von JSON-Dateien und `matplotlib.pyplot` für die Visualisierung.
 
-Das CNN-Modell `face_emotion_classifier.h5` ermittelt die Emotion des Gesichts.
 #### face_emotion_classifier.h5
+Das CNN-Modell `face_emotion_classifier.h5` ermittelt die Emotion des Gesichts.
 
-Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song zu identifizieren.
+#### Webcam_face_recognition.py
+Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
+
 #### song_embeddings.json
+Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song zu identifizieren.
 
 ### Emotions-Embedding-Suche
 Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Musikstücke auszuwählen, haben wir stattdessen die Cosine-Similarity verwendet, um das Musikstück oder die Musikstücke zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
+
 
 ## Ergebnisse und Diskussion
 Die Gesichtserkennung funktioniert gut genug für unsere Verwendungszwecke, trotz eines niedrigen Accuracy Score von 0.545, wie in Abbildung 1 zu erkennen. Der niedrige Score lässt sich zum Teil durch die Verteilung der Emotionsklassifikation auf mehrere verschiedene Klassen auf einmal erklären, da die Zieldaten lediglich one-hot encoded sind, ein Gesicht jedoch oft mehr als nur exklusiv einer einzigen Emotionsklasse zugeordnet werden kann. (z.B.: Trauer und Wut teilen sich ein paar Gesichtsmerkmale)
@@ -135,6 +141,9 @@ Dabei können leider auch keine anderen der Standard-Methoden für die Vervielf�
 Da alle sonstigen Grundfunktionen im Projekt umgesetzt werden konnten, könnte mit einer 
 
 ## Literaturverzeichnis (APA7)
+
+3Blue1Brown. (2022, 18. November). But what is a convolution? [Video]. YouTube. https://www.youtube.com/watch?v=KuXjwB4LzSA
+
 Halliday, D., Resnick, R. & Walker, J. (2003). Physik. Wiley-VCH.
 
 Emotion detection. (2020, 11. Dezember). Kaggle. https://www.kaggle.com/datasets/ananthu017/emotion-detection-fer/data
