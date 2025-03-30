@@ -155,7 +155,7 @@ Nach erfolgreichem Training wird die Modelleistung durch die zwei Visualisierung
 Das trainierte Modell wird schlussendlich als `face_emotion_classifier.h5` gespeichert, um es später in `main.py` verwenden zu können.
 
 #### Musikdaten-Aufbereitung
-In `Music_preprocessor.py` werden die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation werden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
+In `Music_preprocessor.py` werden die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` in der Funktion `audio_to_spectrogram` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation werden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
 
 ```python
 def audio_to_spectrogram(audio_path:str, output_path:str, sample_rate:int=8000, sample_len_sec:int=90) -> None:
@@ -178,6 +178,7 @@ Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Method
 
 #### Musik-Klassifikations-Training
 `Train_music_emotion_classifier.py` trainiert ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen. Im Vergleich zu dem Gesichts-Emotions-Klassifikations-Modell ist das Musik-Emotions-Klassifikations-Modell beinahe identisch, denn nur die Anzahl an CNN Layers sowie die Filteranzahl und Kernelgröße wurden erhöht, um der Bildgröße der Spektrogramme nachzukommen. Dazu wurden auch die Inputgrößen von `create_dataset()` und `create_model()` and die der Spektrogramme angepasst.
+Das trainierte Modell wird zu Programmende als `music_emotion_classifier.h5` gespeichert.
 
 #### Webcam_face_recognition.py
 Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
@@ -216,6 +217,8 @@ Da alle sonstigen Grundfunktionen im Projekt umgesetzt werden konnten, könnte m
 ## Literaturverzeichnis (APA7)
 
 3Blue1Brown. (2022, 18. November). But what is a convolution? [Video]. YouTube. https://www.youtube.com/watch?v=KuXjwB4LzSA
+
+Zafar, A., Aamir, M., Nawi, N. M., Arshad, A., Riaz, S., Alruban, A., Dutta, A. K. & Almotairi, S. (2022). A Comparison of Pooling Methods for Convolutional Neural Networks. Applied Sciences, 12(17), 8643. https://doi.org/10.3390/app12178643
 
 Halliday, D., Resnick, R. & Walker, J. (2003). Physik. Wiley-VCH.
 
