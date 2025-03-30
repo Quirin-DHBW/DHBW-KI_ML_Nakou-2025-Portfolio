@@ -6,6 +6,8 @@ Detection of emotional states in human faces, to suggest fitting music.
 Most recent scanned face:\
 ![Small greyscale image of the last face the main.py scanned before the last push.](zoomed_face.png)
 
+Zur Ausarbeitung, hier clicken: [Ausarbeitung.md](Ausarbeitung/Ausarbeitung.md)
+
 ## Basic Idea
 
 Conv Net uses images of a face to detect the emotion.
