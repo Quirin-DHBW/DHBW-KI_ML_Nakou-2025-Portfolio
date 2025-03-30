@@ -156,6 +156,24 @@ Das trainierte Modell wird schlussendlich als `face_emotion_classifier.h5` gespe
 
 #### Musikdaten-Aufbereitung
 In `Music_preprocessor.py` werden die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` jeweils als 90 Sekunden lange Ausschnitte eingelesen und mittels des Python-Moduls `librosa` in 8k Bitrate geladen. Per Short-Time Fourier-Transformation werden sie anschließend in Spektrogramme umgewandelt und in normierter Form im Ordner `Processed` gespeichert.
+
+```python
+def audio_to_spectrogram(audio_path:str, output_path:str, sample_rate:int=8000, sample_len_sec:int=90) -> None:
+    y, sr = librosa.load(audio_path, sr=sample_rate)
+    y = librosa.util.fix_length(y, size=sample_rate * sample_len_sec)
+
+    # This bit makes the spectrogram
+    D = librosa.stft(y) # Fourier Magic
+    img = librosa.amplitude_to_db(np.abs(D), ref=np.max) # Spectrogram.
+
+    skimage.io.imsave(output_path, img.astype(np.uint8))
+
+
+def process_directory(directory_path:str, output_directory:str) -> None:
+    for audio_file in pathlib.Path(directory_path).glob('*.mp3'):
+        audio_to_spectrogram(audio_file, f"{output_directory}/{pathlib.Path(audio_file).stem}.png")
+```
+
 Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
 
 #### Musik-Klassifikations-Training
