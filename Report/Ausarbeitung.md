@@ -22,7 +22,11 @@ Mathematisch entspricht dieser Prozess der Funktionsfaltung, da die Daten nach b
 ##### Abbildung 1: Beispieldarstellung eines Convolution Durchlaufs, Eigendarstellung
 
 ### Maxpooling
+<<<<<<< HEAD
 Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in nicht-überlappende Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge in diesem Beispiel effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden wie zum Beispiel Averagepooling, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird. (Zafar, A. et. al., 2022)
+=======
+Da die Anzahl an Datenpunkten in einem Bild sehr schnell (quadratisch mit der Bildgröße) anwächst und durch die Faltungsoperationen mit mehreren Filtern diese Informationen oftmals sogar vervielfältigt werden, lohnt es sich, die Datenmengen durch bestimmte Methoden begrenzt zu behalten. Maxpooling teilt ein Bild in nicht-überlappende Blöcke bestimmter Größe, oft 2x2 Pixel große Abschnitte, und weist diesen dann jeweils den Maximalwert unter den im Block beinhalteten Zellen zu. Dadurch wird die Datenmenge in diesem Beispiel effektiv gevierteilt, ohne die am wahrscheinlich wichtigsten Merkmale zu verlieren. Es gibt natürlich auch andere Pooling-Methoden wie zum Beispiel Averagepooling, jedoch ist Maxpooling sehr weit verbreitet. Normalerweise findet man solche Maxpooling layer nach jedem Convolutional Layer in einem CNN, before der output an den nächsten CNN Layer weitergegeben wird (Zafar et al., 2022).
+>>>>>>> aac171ddaa1cd8825433ac80d61e9f7bc7c88b89
 
 ![Beispieldarstellung eines Maxpooling Durchlaufs](../img/Beispiel_Maxpooling.png)
 ##### Abbildung 2: Beispieldarstellung eines Maxpooling Durchlaufs, Eigendarstellung
@@ -178,11 +182,10 @@ Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Method
 `Train_music_emotion_classifier.py` trainiert ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen. Im Vergleich zu dem Gesichts-Emotions-Klassifikations-Modell ist das Musik-Emotions-Klassifikations-Modell beinahe identisch, denn nur die Anzahl an CNN Layers sowie die Filteranzahl und Kernelgröße wurden erhöht, um der Bildgröße der Spektrogramme nachzukommen. Dazu wurden auch die Inputgrößen von `create_dataset()` und `create_model()` and die der Spektrogramme angepasst.
 Das trainierte Modell wird zu Programmende als `music_emotion_classifier.h5` gespeichert.
 
-#### Webcam_face_recognition.py
-Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
+### Prozessverlauf des Prototyps
 
-#### face_emotion_classifier.h5
-Das CNN-Modell `face_emotion_classifier.h5` ermittelt die Emotion des Gesichts.
+#### Gesichtserkennung
+Über `webcam_face_recognition.py` wird auf die primäre Gerätekamera zugegriffen, um ein Gesicht zu erfassen. Diese wird zu einem Graustufenbild konvertiert, und anschließend aud die richtige Größe von 48x48 Pixel zugeschnitten, und in `zoomed_face.png` abgelegt.
 
 #### song_embeddings.json
 Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song später identifizieren zu können. Hierbei folgen die Einträge dem Schema einse Dictionary, in welchem der Dateipfad der Key ist, und der dazu gespeicherte Wert der jeweilige Embedding Vektor.
