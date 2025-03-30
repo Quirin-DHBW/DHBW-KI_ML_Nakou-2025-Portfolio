@@ -6,7 +6,7 @@ Detection of emotional states in human faces, to suggest fitting music.
 Most recent scanned face:\
 ![Small greyscale image of the last face the main.py scanned before the last push.](zoomed_face.png)
 
-### Zur Ausarbeitung, hier klicken: [Ausarbeitung.md](Report/Ausarbeitung.md)
+### Zur Ausarbeitung hier klicken: [Ausarbeitung.md](Report/Ausarbeitung.md)
 
 ## Basic Idea
 
