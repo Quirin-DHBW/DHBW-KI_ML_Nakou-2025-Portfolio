@@ -51,7 +51,7 @@ Die Verzeichnisstruktur von VibeluX setzt sich folgendermaßen zusammen:
   - **archive**: Besteht aus den Unterordnern `test` und `train`, die jeweils PNG-Dateien für die sieben verschiedene "Haupt-Emotionen" (angry, disgusted, fearful, happy, neutral, sad, surprised) enthalten.
   - **audio**: Beinhaltet die Ordner `Processed`, für die Spektrogramm-Daten transformierter Songs, und `RAW`, für die MP3-Dateien derselben Songs.
 
-**img**: Enhält erklärende Beispielbilder.
+**img**: Enhält Bilder für die README und diese Ausarbeitung.
 
 **Model_Training**: Enthält die folgenden Dateien und Skripte:
   - `Music_preprocessor.py`: Ein Skript zur Umwandlung von MP3-Dateien in normierte Spektrogramme.
@@ -156,7 +156,7 @@ Die vorklassifizierten MP3-Dateien aus dem Ordner `RAW` wurden in `Music_preproc
 Dies basiert auf einer schon in der Vergangenheit erfolgreich angewandten Methode aus unterschiedlichen Papern, unter anderem Costa et al. (2016).
 
 #### Musik-Klassifikations-Training
-`Train_music_emotion_classifier.py` trainierte ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen.
+`Train_music_emotion_classifier.py` trainierte ein weiteres Modell zur Zuordnung von Spektrogrammen zu Emotionen. Im Unterschied zu dem Gesichtsemotionsklassifikationsmodell ist das Musikemotionsklassifikationsmodell beinahe identisch, denn die Anzahl and CNN Layer, sowie die Filteranzahl und Kernelgröße wurden erhöht, um der Bildgröße der Spektrogrammen nachzukommen.
 
 ### Main-Programmausführung
 Anschließend wurde das `main.py` Skript erstellt, in dem die endgültige Programmausführung stattfindet.
@@ -169,7 +169,7 @@ Das CNN-Modell `face_emotion_classifier.h5` ermittelt die Emotion des Gesichts.
 Über `webcam_face_recognition.py` wird auf die Gerätekamera zugegriffen, um ein Gesicht zu erfassen, zu verarbeiten und als Graustufenbild abzuspeichern.
 
 #### song_embeddings.json
-Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song zu identifizieren.
+Anhand der JSON-Datei `song_embeddings.json` werden die erkannten Emotionen mit den gespeicherten Song-Embeddings verglichen, um den am besten passenden Song später identifizieren zu können. Hierbei folgen die Einträge dem Schema einse Dictionary, in welchem der Dateipfad der Key ist, und der dazu gespeicherte Wert der jeweilige Embedding Vektor.
 
 ### Emotions-Embedding-Suche
 Beide Modelle erzeugen einen emotionalen "Vektor", der das Gesicht oder die Musik einer Emotion zuordnet. Musik hat viele Facetten, und anstatt nur die primäre Emotion zu erkennen und passende Musikstücke auszuwählen, haben wir stattdessen die Cosine-Similarity verwendet, um das Musikstück oder die Musikstücke zu finden, die am besten zu allen 7 erkannten Emotionen im Gesicht passen.
